@@ -2,6 +2,8 @@
     <div class="col-sm-8">
         <div *ngIf="initiative">
             <h2><span>{{initiative.title}}</span></h2>
+            <div *ngIf="initiative.tags !== null" class="tags"><div *ngFor="let tag of initiative.tags" class="info"><span class="fa fa-tag"></span> {{tag}}</div><div style="clear:both"></div></div>
+
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
@@ -78,7 +80,6 @@
                     </div>
                 </div>
             </div>
-
             <button class="btn btn-primary float-right jh-create-entity create-comment"
                     [routerLink]="['/initiative/', initiative.id, 'comment-new']">
                 <span class="fa fa-plus"></span>
@@ -86,8 +87,6 @@
             Create new Comment
             </span>
             </button>
-
-
             <button type="submit"
                     (click)="previousState()"
                     class="btn btn-info">

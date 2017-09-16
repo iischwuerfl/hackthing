@@ -6,22 +6,24 @@ import {News} from './news.model';
     templateUrl: './news.component.html',
     styleUrls: ['news.scss']
 })
-export class NewsComponent implements OnInit, OnChanges {
+export class NewsComponent implements OnChanges {
     @Input()
     news: News[];
 
     newsToShow: News[];
 
     ngOnChanges(changes: { [propKey: string]: SimpleChange }) {
-        let log: string[] = [];
-        for (let propName in changes) {
-            this.newsToShow = changes[propName].currentValue;
+        for (const propName in changes) {
+            if (propName) {
+                this.newsToShow = changes[propName].currentValue;
+            }
         }
     }
 
-    constructor() {
+    toggleDescription(news: any) {
+        news.showDetails = !news.showDetails;
     }
 
-    ngOnInit() {
+    constructor() {
     }
 }
