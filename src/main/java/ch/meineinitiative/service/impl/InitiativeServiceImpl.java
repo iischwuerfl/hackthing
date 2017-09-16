@@ -243,6 +243,8 @@ public class InitiativeServiceImpl implements InitiativeService {
             Optional.ofNullable(tagDTO.getTags())
                 .map(l -> l.stream().map(TagDTO.Tag::getTerm).filter(InitiativeServiceImpl::isNotDefault))
                 .ifPresent(s -> s.collect(toCollection(() -> tags)));
+
+            return tags;
         } catch (IOException e) {
             e.printStackTrace();
         }
