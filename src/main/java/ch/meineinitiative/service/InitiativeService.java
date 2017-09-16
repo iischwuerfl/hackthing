@@ -1,5 +1,6 @@
 package ch.meineinitiative.service;
 
+import ch.meineinitiative.domain.enumeration.Status;
 import ch.meineinitiative.service.dto.InitiativeDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,8 +33,9 @@ public interface InitiativeService {
      *
      *  @return the list of entities
      * @param title
+     * @param status
      */
-    List<InitiativeDTO> findAll(String title);
+    List<InitiativeDTO> findAll(String title, Status status);
 
 
     /**

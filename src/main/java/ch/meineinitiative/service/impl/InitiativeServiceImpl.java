@@ -1,6 +1,7 @@
 package ch.meineinitiative.service.impl;
 
 import ch.meineinitiative.domain.Initiative;
+import ch.meineinitiative.domain.enumeration.Status;
 import ch.meineinitiative.repository.InitiativeRepository;
 import ch.meineinitiative.repository.TaggingService;
 import ch.meineinitiative.service.InitiativeService;
@@ -120,17 +121,15 @@ public class InitiativeServiceImpl implements InitiativeService {
      */
     @Override
     @Transactional(readOnly = true)
-    public List<InitiativeDTO> findAll(String title) {
+    public List<InitiativeDTO> findAll(String title, Status status) {
         log.debug("Request to get all Initiatives");
 
         Comparator<Initiative> comparator = tanimotoComparator(title);
 
-        String title1 = title;
         return initiativeRepository.findAll().stream()
             .sorted(comparator)
-            .filter(i -> {
-                return tanimoto(title1, i.getTitle().replace("Eidgenössische Volksinitiative", "")) <= 0.8;
-            })
+            .filter(i -> i.getStatus() == status)
+            .filter(i -> tanimoto(title, i.getTitle().replace("Eidgenössische Volksinitiative", "")) <= 0.8)
             .limit(5)
             .map(this::createDto).collect(Collectors.toList());
     }

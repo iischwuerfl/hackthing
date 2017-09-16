@@ -121,7 +121,6 @@ public class InitiativeResource {
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
-
     /**
      * GET  /initiatives/similar-title : get the most similar titled initiatives.
      *
@@ -129,9 +128,9 @@ public class InitiativeResource {
      */
     @GetMapping("/initiatives/similar-title/{title}")
     @Timed
-    public ResponseEntity<List<InitiativeDTO>> getMostSimilarTitledInitiatives(@PathVariable String title) {
+    public ResponseEntity<List<InitiativeDTO>> getMostSimilarTitledInitiatives(@PathVariable String title, @RequestParam(required = false) Status status) {
         log.debug("REST request to get a page of similar Initiatives");
-        List<InitiativeDTO> list = initiativeService.findAll(title);
+        List<InitiativeDTO> list = initiativeService.findAll(title, status);
 
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
