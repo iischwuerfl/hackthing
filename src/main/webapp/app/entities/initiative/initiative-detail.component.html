@@ -12,6 +12,7 @@
         <dd>
             <span>{{initiative.text}}</span>
         </dd>
+        <div *ngIf="initiative.status !== null">
         <dt><span>Status</span></dt>
         <dd>
             <span>{{initiative.status}}</span>
@@ -36,9 +37,11 @@
                 {{politicianSupporters.id}}{{last ? '' : ', '}}
             </span>
         </dd>
+        </div>
     </dl>
     <div>
         <h3>Comments</h3>
+        <i *ngIf="initiative.comments.length== 0">There are currently no comments. Be the first one!<br /><br /></i>
         <div class="comment-list">
             <!-- First Comment -->
             <div class="row" *ngFor="let comment of initiative.comments">
@@ -58,7 +61,7 @@
                     <div class="post-description">
                         <p>{{comment.text}}
                         <div class="stats">
-                            <a href="#" class="btn btn-default stat-item">
+                            <a href="" class="btn btn-default stat-item">
                                 <i class="fa fa-thumbs-up icon"> {{getRandomLikeNumber()}}</i>
                             </a>
 
@@ -91,7 +94,7 @@
         <span class="fa fa-arrow-left"></span>&nbsp;<span> Back</span>
     </button>
 
-    <button type="button"
+    <button *ngIf="account.id==initiative.initiatorId" type="button"
             [routerLink]="['/initiative', initiative.id, 'edit']"
             replaceUrl="true"
             class="btn btn-primary">

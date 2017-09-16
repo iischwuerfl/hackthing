@@ -5,6 +5,9 @@ import {JhiEventManager} from 'ng-jhipster';
 
 import {Initiative} from './initiative.model';
 import {InitiativeService} from './initiative.service';
+import {Principal} from '../../shared/auth/principal.service';
+
+import {Account} from '../../shared/user/account.model';
 
 @Component({
     selector: 'jhi-initiative-detail',
@@ -18,8 +21,10 @@ export class InitiativeDetailComponent implements OnInit, OnDestroy {
     initiative: Initiative;
     private subscription: Subscription;
     private eventSubscriber: Subscription;
+    account: Account;
 
     constructor(private eventManager: JhiEventManager,
+                private principal: Principal,
                 private initiativeService: InitiativeService,
                 private route: ActivatedRoute) {
     }
@@ -29,6 +34,9 @@ export class InitiativeDetailComponent implements OnInit, OnDestroy {
             this.load(params['id']);
         });
         this.registerChangeInInitiatives();
+        this.principal.identity().then((account) => {
+            this.account = account;
+        });
     }
 
     load(id) {

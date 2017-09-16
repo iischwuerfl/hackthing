@@ -11,6 +11,7 @@ import {InitiativeService} from './initiative.service';
 import {User, UserService} from '../../shared';
 import {ResponseWrapper} from '../../shared';
 import {DatePipe} from '@angular/common';
+import {FormControl} from '@angular/forms';
 
 @Component({
     selector: 'jhi-initiative',
@@ -22,7 +23,9 @@ export class InitiativeCreateEditComponent implements OnInit {
     isSaving: boolean;
     routeSub: any;
     users: User[];
-    similarInitiatives: Initiative[];
+    similarInitiativesOld: Initiative[];
+    similarInitiativesNew: Initiative[];
+    title = new FormControl();
 
     constructor(private alertService: JhiAlertService,
                 private initiativeService: InitiativeService,
@@ -31,6 +34,22 @@ export class InitiativeCreateEditComponent implements OnInit {
                 private route: ActivatedRoute,
                 private datePipe: DatePipe,
                 private router: Router) {
+
+        this.title.valueChanges
+            .debounceTime(400)
+            .distinctUntilChanged()
+            .subscribe((title) => {
+                if (title !== '') {
+                    this.initiativeService.findSimilarNew(title).subscribe((res: Initiative[]) => {
+                        this.similarInitiativesNew = res;
+                        console.log('similarInitiativesNew', this.similarInitiativesNew);
+                    });
+                    this.initiativeService.findSimilarOld(title).subscribe((res: Initiative[]) => {
+                        this.similarInitiativesOld = res;
+                        console.log('similarInitiativesOld', this.similarInitiativesOld);
+                    });
+                }
+            });
     }
 
     ngOnInit() {
@@ -71,19 +90,6 @@ export class InitiativeCreateEditComponent implements OnInit {
         }
     }
 
-    onKey(event: any) {
-        console.log('typing...');
-        if (event.target.value.length > 4) {
-            this.initiativeService.findSimilar(event.target.value).subscribe((res: Initiative[]) => {
-                this.similarInitiatives = res;
-                console.log('similarInitiatives', this.similarInitiatives);
-            });
-        }
-        else {
-            this.similarInitiatives = null;
-        }
-    }
-
     private subscribeToSaveResponse(result: Observable<Initiative>) {
         result.subscribe((res: Initiative) =>
             this.onSaveSuccess(res), (res: Response) => this.onSaveError());
@@ -116,27 +122,5 @@ export class InitiativeCreateEditComponent implements OnInit {
             }
         }
         return option;
-    }
-}
-
-@Component({
-    selector: 'jhi-initiative-popup',
-    template: ''
-})
-export class InitiativePopupComponent implements OnInit, OnDestroy {
-
-    routeSub: any;
-
-    constructor(private route: ActivatedRoute,
-                private initiativePopupService: InitiativePopupService) {
-    }
-
-    ngOnInit() {
-        this.routeSub = this.route.params.subscribe((params) => {
-        });
-    }
-
-    ngOnDestroy() {
-        this.routeSub.unsubscribe();
     }
 }

@@ -9,12 +9,12 @@ import {
     InitiativeComponent,
     InitiativeDetailComponent,
     InitiativeCreateEditComponent,
-    InitiativePopupComponent,
     InitiativeDeletePopupComponent,
     InitiativeDeleteDialogComponent,
     initiativeRoute,
     initiativePopupRoute,
 } from './';
+import {ReactiveFormsModule} from '@angular/forms';
 
 const ENTITY_STATES = [
     ...initiativeRoute,
@@ -25,6 +25,7 @@ const ENTITY_STATES = [
     imports: [
         MeineInitiativeSharedModule,
         MeineInitiativeAdminModule,
+        ReactiveFormsModule,
         RouterModule.forRoot(ENTITY_STATES, { useHash: true })
     ],
     declarations: [
@@ -32,13 +33,11 @@ const ENTITY_STATES = [
         InitiativeDetailComponent,
         InitiativeCreateEditComponent,
         InitiativeDeleteDialogComponent,
-        InitiativePopupComponent,
         InitiativeDeletePopupComponent,
     ],
     entryComponents: [
         InitiativeComponent,
         InitiativeCreateEditComponent,
-        InitiativePopupComponent,
         InitiativeDeleteDialogComponent,
         InitiativeDeletePopupComponent,
     ],

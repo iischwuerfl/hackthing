@@ -13,6 +13,7 @@ export class InitiativeService {
 
     private resourceUrl = SERVER_API_URL + 'api/initiatives';
     private similarInitUrls = this.resourceUrl + '/similar-title';
+
     constructor(private http: Http, private dateUtils: JhiDateUtils) {
     }
 
@@ -25,8 +26,16 @@ export class InitiativeService {
         });
     }
 
-    findSimilar(title: String): Observable<Initiative[]> {
+    findSimilarOld(title: String): Observable<Initiative[]> {
         return this.http.get(`${this.similarInitUrls}/${title}`).map((res: Response) => {
+            const jsonResponse = res.json();
+            this.convertItemFromServer(jsonResponse);
+            return jsonResponse;
+        });
+    }
+
+    findSimilarNew(title: String): Observable<Initiative[]> {
+        return this.http.get(`${this.similarInitUrls}/${title}` + '?status=PROPOSAL').map((res: Response) => {
             const jsonResponse = res.json();
             this.convertItemFromServer(jsonResponse);
             return jsonResponse;

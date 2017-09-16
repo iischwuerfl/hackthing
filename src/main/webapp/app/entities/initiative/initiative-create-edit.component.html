@@ -7,15 +7,10 @@
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
-        <div class="form-group" [hidden]="!initiative.id">
-            <label for="id">ID</label>
-            <input type="text" class="form-control" id="id" name="id"
-                   [(ngModel)]="initiative.id" readonly />
-        </div>
         <div class="form-group">
             <label class="form-control-label" for="field_title" >Title</label>
             <input type="text" class="form-control" name="text" id="field_title"
-                   [(ngModel)]="initiative.title" (keyup)="onKey($event)" />
+                    [formControl]="title" />
         </div>
         <div class="form-group">
             <label class="form-control-label" for="field_text">Description</label>
@@ -25,16 +20,32 @@
     </div>
 
     <h1>Similar initiatives</h1>
-    <div *ngFor="let similarInitiative of similarInitiatives"  class="panel panel-default" data-toggle="collapse">
-            <a [routerLink]="['/initiative', similarInitiative.id]"><div class="panel-group">
+    <h2>Past initiatives</h2>
+    <div *ngFor="let similarInitiativeOld of similarInitiativesOld"  class="panel panel-default" data-toggle="collapse">
+            <a [routerLink]="['/initiative', similarInitiativeOld.id]"><div class="panel-group">
                 <div class="panel-heading">
-                    {{similarInitiative.title}}
+                    {{similarInitiativeOld.title}}
                 </div>
             </div>
             </a>
     </div>
-    <div *ngIf="similarInitiatives == null">
-        <jhi-alert-info>We couldn't find any initiatives similar to yours. Go ahead!</jhi-alert-info>
+    <div *ngIf="similarInitiativeOld == null && initiative.title!== null" class="alert alert-info" role="alert">
+        We couldn't find any past initiatives similar to yours.
+    </div>
+
+    <h2>Initiatives proposed on this platform</h2>
+    <div *ngFor="let similarInitiativeNew of similarInitiativesNew"  class="panel panel-default" data-toggle="collapse">
+        <a [routerLink]="['/initiative', similarInitiativeNew.id]"><div class="panel-group">
+            <div class="panel-heading">
+                {{similarInitiativeNew.title}}
+            </div>
+        </div>
+        </a>
+    </div>
+    <div >
+    </div>
+    <div *ngIf="similarInitiativesNew == null && initiative.title!== ''" class="alert alert-info" role="alert">
+        We couldn't find any initiatives similar to yours. Go ahead!
     </div>
     <div class="modal-footer">
         <!-- button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
