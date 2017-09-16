@@ -2,12 +2,9 @@ package ch.meineinitiative;
 
 import ch.meineinitiative.config.ApplicationProperties;
 import ch.meineinitiative.config.DefaultProfileUtil;
-import ch.meineinitiative.service.InitiativeService;
-import ch.meineinitiative.service.dto.InitiativeDTO;
 import io.github.jhipster.config.JHipsterConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.actuate.autoconfigure.MetricFilterAutoConfiguration;
 import org.springframework.boot.actuate.autoconfigure.MetricRepositoryAutoConfiguration;
@@ -19,7 +16,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 
 import javax.annotation.PostConstruct;
-import javax.transaction.Transactional;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Arrays;
@@ -40,10 +36,6 @@ public class MeineInitiativeApp {
         this.env = env;
     }
 
-    @Autowired
-    private InitiativeService initiativeService;
-
-
     /**
      * Initializes meineInitiative.
      * <p>
@@ -62,38 +54,6 @@ public class MeineInitiativeApp {
             log.error("You have misconfigured your application! It should not " +
                 "run with both the 'dev' and 'cloud' profiles at the same time.");
         }
-
-//        try {
-//            List<InitiativeCrawler.InitiativeCral> initiaveCrawlList = InitiativeCrawler.crawl();
-//            casdf(initiaveCrawlList);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-    }
-
-    @Transactional
-    private void casdf(List<InitiativeCrawler.InitiativeCral> initiaveCrawlList) {
-        try {
-            for (InitiativeCrawler.InitiativeCral initiativeCral : initiaveCrawlList) {
-                // initiativeService.save()
-                System.out.println(initiativeCral.title);
-                InitiativeDTO initiativeDTO = new InitiativeDTO();
-                initiativeDTO.setTitle(initiativeCral.getTitle());
-                initiativeDTO.setText(initiativeCral.getText());
-                try {
-                    createThing(initiativeDTO);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    private void createThing(InitiativeDTO initiativeDTO) {
-        initiativeService.save(initiativeDTO);
     }
 
     /**
@@ -104,7 +64,10 @@ public class MeineInitiativeApp {
      */
     public static void main(String[] args) throws UnknownHostException {
         // Crawler
-
+        /*List<InitiativeCrawler.InitiativeCral> initiaveCrawlList = InitiativeCrawler.crawl();
+        for (InitiativeCrawler.InitiativeCral initiativeCral : initiaveCrawlList) {
+            System.out.println(initiativeCral.title);
+        }*/
         SpringApplication app = new SpringApplication(MeineInitiativeApp.class);
         DefaultProfileUtil.addDefaultProfile(app);
         Environment env = app.run(args).getEnvironment();
