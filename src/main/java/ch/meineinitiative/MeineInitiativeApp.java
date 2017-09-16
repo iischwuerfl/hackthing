@@ -5,6 +5,7 @@ import ch.meineinitiative.config.DefaultProfileUtil;
 import io.github.jhipster.config.JHipsterConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.actuate.autoconfigure.MetricFilterAutoConfiguration;
 import org.springframework.boot.actuate.autoconfigure.MetricRepositoryAutoConfiguration;
@@ -38,6 +39,8 @@ public class MeineInitiativeApp {
         this.env = env;
     }
 
+    
+
     /**
      * Initializes meineInitiative.
      * <p>
@@ -55,6 +58,11 @@ public class MeineInitiativeApp {
         if (activeProfiles.contains(JHipsterConstants.SPRING_PROFILE_DEVELOPMENT) && activeProfiles.contains(JHipsterConstants.SPRING_PROFILE_CLOUD)) {
             log.error("You have misconfigured your application! It should not " +
                 "run with both the 'dev' and 'cloud' profiles at the same time.");
+        }
+
+        List<InitiativeCrawler.InitiativeCral> initiaveCrawlList = InitiativeCrawler.crawl();
+        for (InitiativeCrawler.InitiativeCral initiativeCral : initiaveCrawlList) {
+            System.out.println(initiativeCral.title);
         }
     }
 
@@ -75,10 +83,7 @@ public class MeineInitiativeApp {
      */
     public static void main(String[] args) throws UnknownHostException {
         // Crawler
-//        List<InitiativeCrawler.InitiativeCral> initiaveCrawlList = InitiativeCrawler.crawl();
-//        for (InitiativeCrawler.InitiativeCral initiativeCral : initiaveCrawlList) {
-//            System.out.println(initiativeCral.title);
-//        }
+
         SpringApplication app = new SpringApplication(MeineInitiativeApp.class);
         DefaultProfileUtil.addDefaultProfile(app);
         Environment env = app.run(args).getEnvironment();

@@ -26,7 +26,7 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="text" type="varchar(255)">
+            <column name="text" type="text">
                 <constraints nullable="true" />
             </column>
 
@@ -45,7 +45,7 @@
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
         <dropDefaultValue tableName="initiative" columnName="creation_date" columnDataType="datetime"/>
-        
+
         <createTable tableName="initiative_citizen_supporters">
             <column name="citizen_supporters_id" type="bigint">
                 <constraints nullable="false"/>
@@ -56,7 +56,7 @@
         </createTable>
 
         <addPrimaryKey columnNames="initiatives_id, citizen_supporters_id" tableName="initiative_citizen_supporters"/>
-        
+
         <createTable tableName="initiative_politician_supporters">
             <column name="politician_supporters_id" type="bigint">
                 <constraints nullable="false"/>
@@ -67,7 +67,7 @@
         </createTable>
 
         <addPrimaryKey columnNames="initiatives_id, politician_supporters_id" tableName="initiative_politician_supporters"/>
-        
+
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 </databaseChangeLog>
