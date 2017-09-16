@@ -2,6 +2,7 @@ package ch.meineinitiative.web.rest;
 
 import ch.meineinitiative.domain.User;
 import ch.meineinitiative.domain.enumeration.Status;
+import ch.meineinitiative.repository.SrfService;
 import ch.meineinitiative.security.SecurityUtils;
 import ch.meineinitiative.service.InitiativeService;
 import ch.meineinitiative.service.UserService;
@@ -42,6 +43,7 @@ public class InitiativeResource {
     private static final String ENTITY_NAME = "initiative";
 
     private final InitiativeService initiativeService;
+
     private final UserService userService;
 
     private final UserMapper userMapper;
@@ -146,6 +148,7 @@ public class InitiativeResource {
     public ResponseEntity<InitiativeDTO> getInitiative(@PathVariable Long id) {
         log.debug("REST request to get Initiative : {}", id);
         InitiativeDTO initiativeDTO = initiativeService.findOne(id);
+
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(initiativeDTO));
     }
 

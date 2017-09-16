@@ -3,22 +3,29 @@ package ch.meineinitiative.service.impl;
 import ch.meineinitiative.domain.Initiative;
 import ch.meineinitiative.domain.enumeration.Status;
 import ch.meineinitiative.repository.InitiativeRepository;
+import ch.meineinitiative.repository.SrfService;
 import ch.meineinitiative.repository.TaggingService;
 import ch.meineinitiative.service.InitiativeService;
 import ch.meineinitiative.service.dto.InitiativeDTO;
+import ch.meineinitiative.service.dto.NewsDTO;
+import ch.meineinitiative.service.dto.TagDTO;
 import ch.meineinitiative.service.mapper.InitiativeMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -37,10 +44,16 @@ public class InitiativeServiceImpl implements InitiativeService {
 
     private final TaggingService taggingService;
 
-    public InitiativeServiceImpl(InitiativeRepository initiativeRepository, InitiativeMapper initiativeMapper, TaggingService taggingService) {
+    private final SrfService srfService;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    public InitiativeServiceImpl(InitiativeRepository initiativeRepository, InitiativeMapper initiativeMapper, TaggingService taggingService, SrfService srfService) {
         this.initiativeRepository = initiativeRepository;
         this.initiativeMapper = initiativeMapper;
         this.taggingService = taggingService;
+        this.srfService = srfService;
     }
 
     public static double tanimoto(String string1, String string2) {
@@ -161,8 +174,37 @@ public class InitiativeServiceImpl implements InitiativeService {
     @Transactional(readOnly = true)
     public InitiativeDTO findOne(Long id) {
         log.debug("Request to get Initiative : {}", id);
-        Initiative initiative = initiativeRepository.findOne(id);
-        return initiativeMapper.toDto(initiative);
+        Initiative one = initiativeRepository.findOne(id);
+        InitiativeDTO initiativeDTO = initiativeMapper.toDto(one);
+
+        if (one.getTag() != null) {
+            String searchQuery = createSearchQuery(one.getTag());
+            if (StringUtils.isNotEmpty(searchQuery)) {
+                NewsDTO news = srfService.findByTags(searchQuery, "VERaczKNt8KjWZs8ejMPAWXr1CXM4HJX");
+                initiativeDTO.setNewsFeed(news);
+            }
+        }
+
+        return initiativeDTO;
+    }
+
+    private String createSearchQuery(String tag) {
+        try {
+            StringBuilder stringBuilder = new StringBuilder();
+            TagDTO tagDTO = objectMapper.readValue(tag, TagDTO.class);
+
+            Optional.ofNullable(tagDTO.getEntities())
+                .map(l -> l.stream().map(TagDTO.Entity::getSurface).collect(Collectors.joining(" ", "", " ")))
+                .ifPresent(stringBuilder::append);
+
+            Optional.ofNullable(tagDTO.getTags())
+                .map(l -> l.stream().map(TagDTO.Tag::getTerm).collect(Collectors.joining(" ")))
+                .ifPresent(stringBuilder::append);
+            return stringBuilder.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
     /**

@@ -21,35 +21,35 @@ public interface InitiativeService {
     InitiativeDTO save(InitiativeDTO initiativeDTO);
 
     /**
-     *  Get all the initiatives.
+     * Get all the initiatives.
      *
-     *  @param pageable the pagination information
-     *  @return the list of entities
+     * @param pageable the pagination information
+     * @return the list of entities
      */
     Page<InitiativeDTO> findAll(Pageable pageable);
 
     /**
-     *  Get all the initiatives.
+     * Get all the initiatives.
      *
-     *  @return the list of entities
      * @param title
      * @param status
+     * @return the list of entities
      */
     List<InitiativeDTO> findAll(String title, Status status);
 
 
     /**
-     *  Get the "id" initiative.
+     * Get the "id" initiative.
      *
-     *  @param id the id of the entity
-     *  @return the entity
+     * @param id the id of the entity
+     * @return the entity
      */
     InitiativeDTO findOne(Long id);
 
     /**
-     *  Delete the "id" initiative.
+     * Delete the "id" initiative.
      *
-     *  @param id the id of the entity
+     * @param id the id of the entity
      */
     void delete(Long id);
 }

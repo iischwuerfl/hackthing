@@ -49,7 +49,31 @@ public class InitiativeServiceImplTest {
 
     @Before
     public void setUp() throws Exception {
-        impl = new InitiativeServiceImpl(initiativeRepository, initiativeMapper, null);
+        impl = new InitiativeServiceImpl(initiativeRepository, initiativeMapper, null, null);
+    }
+
+    @Test
+    public void findAll() throws Exception {
+        when(initiativeRepository.findAll()).thenReturn(Arrays.asList(create("Huha"), create("Schraff")));
+
+        List<InitiativeDTO> huha = impl.findAll("Huha", null);
+        assertThat(huha.stream().map(InitiativeDTO::getTitle)).containsExactly("Huha");
+    }
+
+    @Test
+    public void findAlla() throws Exception {
+        when(initiativeRepository.findAll()).thenReturn(Arrays.asList(create("Huhu"), create("Schraff")));
+
+        List<InitiativeDTO> huha = impl.findAll("Schaf", null);
+        assertThat(huha.stream().map(InitiativeDTO::getTitle)).containsExactly("Schraff");
+    }
+
+    @Test
+    public void findAllb() throws Exception {
+        when(initiativeRepository.findAll()).thenReturn(Arrays.asList(create("Bernd und Das Brot moegen Tiere"), create("LVA wollen wir alle"), create("Wir wollen LVA")));
+
+        List<InitiativeDTO> huha = impl.findAll("LVA ist für alle zu wollen", null);
+        assertThat(huha.stream().map(InitiativeDTO::getTitle)).containsExactly("LVA wollen wir alle", "Wir wollen LVA");
     }
 
     private Initiative create(String title) {

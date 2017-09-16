@@ -1,14 +1,11 @@
 package ch.meineinitiative.service.dto;
 
 
-import java.time.ZonedDateTime;
-import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Objects;
-
-import ch.meineinitiative.domain.Comment;
 import ch.meineinitiative.domain.enumeration.Status;
+
+import java.io.Serializable;
+import java.time.ZonedDateTime;
+import java.util.*;
 
 /**
  * A DTO for the Initiative entity.
@@ -32,6 +29,8 @@ public class InitiativeDTO implements Serializable {
     private Set<UserDTO> citizenSupporters = new HashSet<>();
 
     private Set<UserDTO> politicianSupporters = new HashSet<>();
+
+    private NewsDTO newsFeed;
 
     public Long getId() {
         return id;
@@ -97,6 +96,13 @@ public class InitiativeDTO implements Serializable {
         this.politicianSupporters = users;
     }
 
+    public NewsDTO getNewsFeed() {
+        return newsFeed;
+    }
+
+    public void setNewsFeed(NewsDTO newsFeed) {
+        this.newsFeed = newsFeed;
+    }
 
     public Set<CommentDTO> getComments() {
         return comments;
@@ -116,7 +122,7 @@ public class InitiativeDTO implements Serializable {
         }
 
         InitiativeDTO initiativeDTO = (InitiativeDTO) o;
-        if(initiativeDTO.getId() == null || getId() == null) {
+        if (initiativeDTO.getId() == null || getId() == null) {
             return false;
         }
         return Objects.equals(getId(), initiativeDTO.getId());
