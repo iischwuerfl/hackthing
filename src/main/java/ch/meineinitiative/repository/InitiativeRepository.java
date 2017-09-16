@@ -22,4 +22,5 @@ public interface InitiativeRepository extends JpaRepository<Initiative, Long> {
     @Query("select initiative from Initiative initiative left join fetch initiative.citizenSupporters left join fetch initiative.politicianSupporters left join fetch initiative.comments where initiative.id =:id")
     Initiative findOneWithEagerRelationships(@Param("id") Long id);
 
+
 }

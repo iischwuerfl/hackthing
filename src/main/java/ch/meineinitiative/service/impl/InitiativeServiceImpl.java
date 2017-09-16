@@ -15,7 +15,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 
@@ -97,12 +99,6 @@ public class InitiativeServiceImpl implements InitiativeService {
         return initiativeMapper.toDto(initiative);
     }
 
-    private Map<String, Object> toBody(String text) {
-        HashMap<String, Object> text1 = new HashMap<>();
-        text1.put("text", text);
-        return text1;
-    }
-
     /**
      * Get all the initiatives.
      *
@@ -129,11 +125,21 @@ public class InitiativeServiceImpl implements InitiativeService {
 
         Comparator<Initiative> comparator = tanimotoComparator(title);
 
+        String title1 = title;
         return initiativeRepository.findAll().stream()
             .sorted(comparator)
-            .filter(i -> tanimoto(title, i.getTitle()) <= 0.7)
+            .filter(i -> {
+                return tanimoto(title1, i.getTitle().replace("Eidgenössische Volksinitiative", "")) <= 0.8;
+            })
             .limit(5)
-            .map(initiativeMapper::toDto).collect(Collectors.toList());
+            .map(this::createDto).collect(Collectors.toList());
+    }
+
+    private InitiativeDTO createDto(Initiative initiative) {
+        InitiativeDTO initiativeDTO = new InitiativeDTO();
+        initiativeDTO.setTitle(initiative.getTitle());
+        initiativeDTO.setId(initiative.getId());
+        return initiativeDTO;
     }
 
     private Comparator<Initiative> tanimotoComparator(String title) {
