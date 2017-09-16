@@ -6,6 +6,7 @@ import { ProfileService } from '../profiles/profile.service';
 import { Principal, LoginModalService, LoginService } from '../../shared';
 
 import { VERSION, DEBUG_INFO_ENABLED } from '../../app.constants';
+import { JhiEventManager } from 'ng-jhipster';
 
 @Component({
     selector: 'jhi-navbar',
@@ -16,6 +17,7 @@ import { VERSION, DEBUG_INFO_ENABLED } from '../../app.constants';
 })
 export class NavbarComponent implements OnInit {
 
+    account: Account;
     inProduction: boolean;
     isNavbarCollapsed: boolean;
     languages: any[];
@@ -28,7 +30,8 @@ export class NavbarComponent implements OnInit {
         private principal: Principal,
         private loginModalService: LoginModalService,
         private profileService: ProfileService,
-        private router: Router
+        private router: Router,
+        private eventManager: JhiEventManager
     ) {
         this.version = VERSION ? 'v' + VERSION : '';
         this.isNavbarCollapsed = true;
@@ -38,6 +41,11 @@ export class NavbarComponent implements OnInit {
         this.profileService.getProfileInfo().subscribe((profileInfo) => {
             this.inProduction = profileInfo.inProduction;
             this.swaggerEnabled = profileInfo.swaggerEnabled;
+        });
+        this.eventManager.subscribe('authenticationSuccess', (message) => {
+            this.principal.identity().then((account) => {
+                this.account = account;
+            });
         });
     }
 

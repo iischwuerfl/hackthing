@@ -1,9 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
-import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { Initiative } from './initiative.model';
@@ -11,24 +10,27 @@ import { InitiativePopupService } from './initiative-popup.service';
 import { InitiativeService } from './initiative.service';
 import { User, UserService } from '../../shared';
 import { ResponseWrapper } from '../../shared';
+import {DatePipe} from '@angular/common';
 
 @Component({
-    selector: 'jhi-initiative-dialog',
-    templateUrl: './initiative-dialog.component.html'
+    selector: 'jhi-initiative',
+    templateUrl: './initiative-create-edit.component.html'
 })
-export class InitiativeDialogComponent implements OnInit {
+export class InitiativeCreateEditComponent implements OnInit {
 
     initiative: Initiative;
     isSaving: boolean;
-
+    routeSub: any;
     users: User[];
 
     constructor(
-        public activeModal: NgbActiveModal,
         private alertService: JhiAlertService,
         private initiativeService: InitiativeService,
         private userService: UserService,
-        private eventManager: JhiEventManager
+        private eventManager: JhiEventManager,
+        private route: ActivatedRoute,
+        private datePipe: DatePipe,
+        private router: Router
     ) {
     }
 
@@ -36,13 +38,29 @@ export class InitiativeDialogComponent implements OnInit {
         this.isSaving = false;
         this.userService.query()
             .subscribe((res: ResponseWrapper) => { this.users = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
-    }
+        this.routeSub = this.route.params.subscribe((params) => {
 
-    clear() {
-        this.activeModal.dismiss('cancel');
+            const id = params['id'];
+            if ( id) {
+                this.initiativeService.find(id).subscribe((initiative) => {
+                    initiative.creationDate = this.datePipe
+                        .transform(initiative.creationDate, 'yyyy-MM-ddTHH:mm:ss');
+                    // this.ngbModalRef = this.initiativeModalRef(component, initiative);
+                    // resolve(this.ngbModalRef);
+                });
+            } else {
+                this.initiative = new Initiative();
+                // setTimeout used as a workaround for getting ExpressionChangedAfterItHasBeenCheckedError
+                setTimeout(() => {
+                    // this.ngbModalRef = this.initiativeModalRef(component, new Initiative());
+                    // resolve(this.ngbModalRef);
+                }, 0);
+            }
+        });
     }
 
     save() {
+        console.log('saving');
         this.isSaving = true;
         if (this.initiative.id !== undefined) {
             this.subscribeToSaveResponse(
@@ -60,8 +78,8 @@ export class InitiativeDialogComponent implements OnInit {
 
     private onSaveSuccess(result: Initiative) {
         this.eventManager.broadcast({ name: 'initiativeListModification', content: 'OK'});
+        this.router.navigate(['/initiative']);
         this.isSaving = false;
-        this.activeModal.dismiss(result);
     }
 
     private onSaveError() {
@@ -103,13 +121,6 @@ export class InitiativePopupComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
-            if ( params['id'] ) {
-                this.initiativePopupService
-                    .open(InitiativeDialogComponent as Component, params['id']);
-            } else {
-                this.initiativePopupService
-                    .open(InitiativeDialogComponent as Component);
-            }
         });
     }
 

@@ -38,7 +38,6 @@ public class Initiative implements Serializable {
     private ZonedDateTime creationDate;
 
     @OneToMany(mappedBy = "initiative")
-    @JsonIgnore
     private Set<Comment> comments = new HashSet<>();
 
     @ManyToOne
