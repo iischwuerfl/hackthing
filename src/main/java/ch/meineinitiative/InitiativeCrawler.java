@@ -14,7 +14,7 @@ public class InitiativeCrawler {
     {
         List<InitiativeCral> initiatives = new LinkedList<>();
 
-        for (int i = 1; i < 470; i++)
+        for (int i = 449; i < 450; i++)
         {
             try
             {
@@ -27,7 +27,7 @@ public class InitiativeCrawler {
 
                 for (Element element : initiativeTextElements)
                 {
-                    initativeText.concat(element.text());
+                    initativeText = initativeText.concat(element.text());
                 }
 
                 initiatives.add(new InitiativeCral(initiativeTitle.text(), initativeText));

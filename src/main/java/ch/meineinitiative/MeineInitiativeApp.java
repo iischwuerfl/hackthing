@@ -2,6 +2,8 @@ package ch.meineinitiative;
 
 import ch.meineinitiative.config.ApplicationProperties;
 import ch.meineinitiative.config.DefaultProfileUtil;
+import ch.meineinitiative.service.InitiativeService;
+import ch.meineinitiative.service.dto.InitiativeDTO;
 import io.github.jhipster.config.JHipsterConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +41,9 @@ public class MeineInitiativeApp {
         this.env = env;
     }
 
-    
+    @Autowired
+    private InitiativeService initiativeService;
+
 
     /**
      * Initializes meineInitiative.
@@ -60,9 +64,18 @@ public class MeineInitiativeApp {
                 "run with both the 'dev' and 'cloud' profiles at the same time.");
         }
 
-        List<InitiativeCrawler.InitiativeCral> initiaveCrawlList = InitiativeCrawler.crawl();
-        for (InitiativeCrawler.InitiativeCral initiativeCral : initiaveCrawlList) {
-            System.out.println(initiativeCral.title);
+        try {
+            List<InitiativeCrawler.InitiativeCral> initiaveCrawlList = InitiativeCrawler.crawl();
+            for (InitiativeCrawler.InitiativeCral initiativeCral : initiaveCrawlList) {
+                // initiativeService.save()
+                System.out.println(initiativeCral.title);
+                InitiativeDTO initiativeDTO = new InitiativeDTO();
+                initiativeDTO.setTitle(initiativeCral.getTitle());
+                initiativeDTO.setText(initiativeCral.getText());
+                initiativeService.save(initiativeDTO);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

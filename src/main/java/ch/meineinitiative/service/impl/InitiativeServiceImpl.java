@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.net.URLEncoder;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -99,7 +100,7 @@ public class InitiativeServiceImpl implements InitiativeService {
 
     private Map<String, Object> toBody(String text) {
         HashMap<String, Object> text1 = new HashMap<>();
-        text1.put("text", text);
+        text1.put("text", URLEncoder.encode(text));
         return text1;
     }
 
