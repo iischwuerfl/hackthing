@@ -20,6 +20,12 @@ public interface InitiativeRepository extends JpaRepository<Initiative, Long> {
     @Query("select initiative from Initiative initiative where initiative.initiator.login = ?#{principal.username}")
     List<Initiative> findByInitiatorIsCurrentUser();
 
+    @Query("select initiative from Initiative initiative where initiative.status = null")
+    List<Initiative> findAllOldInitiator();
+
+    @Query("select initiative from Initiative initiative where initiative.status <> null")
+    List<Initiative> findAllNewInitiator();
+
     @Query("select distinct initiative from Initiative initiative where initiative.status = null")
     Page<Initiative> findAllOldWithEagerRelationships(Pageable pageable);
 

@@ -130,7 +130,7 @@ public class InitiativeServiceImpl implements InitiativeService {
     public Page<InitiativeDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Initiatives");
         return initiativeRepository.findAll(pageable)
-            .map(initiativeMapper::toDto);
+            .map(this::createDto);
     }
 
     /**
@@ -174,18 +174,27 @@ public class InitiativeServiceImpl implements InitiativeService {
 
         Comparator<Initiative> comparator = tanimotoComparator(title);
 
-        return initiativeRepository.findAll().stream()
-            .sorted(comparator)
-            .filter(i -> i.getStatus() == status)
-            .filter(i -> tanimoto(title, i.getTitle().replace("Eidgenössische Volksinitiative", "")) <= 0.8)
-            .limit(5)
-            .map(this::createDto).collect(Collectors.toList());
+        if (status != null) {
+            return initiativeRepository.findAllNewInitiator().parallelStream()
+                .sorted(comparator)
+                .filter(i -> tanimoto(title, i.getTitle().replace("Eidgenössische Volksinitiative", "")) <= 0.8)
+                .limit(5)
+                .map(this::createDto).collect(Collectors.toList());
+        } else {
+            return initiativeRepository.findAllOldInitiator().parallelStream()
+                .sorted(comparator)
+                .filter(i -> tanimoto(title, i.getTitle().replace("Eidgenössische Volksinitiative", "")) <= 0.8)
+                .limit(5)
+                .map(this::createDto).collect(Collectors.toList());
+        }
     }
 
     private InitiativeDTO createDto(Initiative initiative) {
         InitiativeDTO initiativeDTO = new InitiativeDTO();
         initiativeDTO.setTitle(initiative.getTitle());
         initiativeDTO.setId(initiative.getId());
+        initiativeDTO.setText(initiative.getText());
+        initiativeDTO.setStatus(initiative.getStatus());
         return initiativeDTO;
     }
 
