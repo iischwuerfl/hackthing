@@ -134,6 +134,35 @@ public class InitiativeServiceImpl implements InitiativeService {
     }
 
     /**
+     * Get all new initiatives.
+     *
+     * @param pageable the pagination information
+     * @return the list of entities
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public Page<InitiativeDTO> findAllNew(Pageable pageable) {
+        log.debug("Request to get all Initiatives");
+        return initiativeRepository.findAllNewWithEagerRelationships(pageable)
+            .map(initiativeMapper::toDto);
+    }
+
+
+    /**
+     * Get all old the initiatives.
+     *
+     * @param pageable the pagination information
+     * @return the list of entities
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public Page<InitiativeDTO> findAllOld(Pageable pageable) {
+        log.debug("Request to get all Initiatives");
+        return initiativeRepository.findAllOldWithEagerRelationships(pageable)
+            .map(initiativeMapper::toDto);
+    }
+
+    /**
      * Get all the initiatives.
      *
      * @return the list of entities
@@ -220,10 +249,8 @@ public class InitiativeServiceImpl implements InitiativeService {
         return Collections.emptySet();
     }
 
-    static boolean isNotDefault(String defaultStuff) {
-
+    private static boolean isNotDefault(String defaultStuff) {
         return !SET.contains(defaultStuff);
-
     }
 
     /**

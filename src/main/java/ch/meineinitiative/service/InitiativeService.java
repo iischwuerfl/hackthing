@@ -4,6 +4,7 @@ import ch.meineinitiative.domain.enumeration.Status;
 import ch.meineinitiative.service.dto.InitiativeDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -27,6 +28,10 @@ public interface InitiativeService {
      * @return the list of entities
      */
     Page<InitiativeDTO> findAll(Pageable pageable);
+
+    Page<InitiativeDTO> findAllNew(Pageable pageable);
+
+    Page<InitiativeDTO> findAllOld(Pageable pageable);
 
     /**
      * Get all the initiatives.
