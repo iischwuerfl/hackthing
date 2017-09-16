@@ -1,13 +1,13 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { MeineInitiativeInitiativeModule } from './initiative/initiative.module';
-import { MeineInitiativeCommentarModule } from './commentar/commentar.module';
+import { MeineInitiativeCommentModule } from './comment/comment.module';
 /* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */
 
 @NgModule({
     imports: [
         MeineInitiativeInitiativeModule,
-        MeineInitiativeCommentarModule
+        MeineInitiativeCommentModule
         /* jhipster-needle-add-entity-module - JHipster will add entity modules here */
     ],
     declarations: [],

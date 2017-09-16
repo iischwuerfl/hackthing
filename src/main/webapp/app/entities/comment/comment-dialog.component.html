@@ -1,5 +1,4 @@
 <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
-
     <div class="modal-header">
         <h4 class="modal-title" id="myCommentLabel">Create or edit a Comment</h4>
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
@@ -23,21 +22,6 @@
                 <input id="field_creationDate" type="datetime-local" class="form-control" name="creationDate" [(ngModel)]="comment.creationDate"
                   />
             </div>
-        </div>
-
-        <div class="form-group">
-            <label class="form-control-label" for="field_initiative">Initiative</label>
-            <select class="form-control" id="field_initiative" name="initiative" [(ngModel)]="comment.initiativeId" >
-                <option [ngValue]="null"></option>
-                <option [ngValue]="initiativeOption.id" *ngFor="let initiativeOption of initiatives; trackBy: trackInitiativeById">{{initiativeOption.id}}</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label class="form-control-label" for="field_creator">Creator</label>
-            <select class="form-control" id="field_creator" name="creator" [(ngModel)]="comment.creatorId" >
-                <option [ngValue]="null"></option>
-                <option [ngValue]="userOption.id" *ngFor="let userOption of users; trackBy: trackUserById">{{userOption.id}}</option>
-            </select>
         </div>
     </div>
     <div class="modal-footer">

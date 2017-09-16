@@ -1,7 +1,7 @@
 <div>
     <h2>
         <span>Initiatives</span>
-        <button class="btn btn-primary float-right jh-create-entity create-initiative" [routerLink]="['/', { outlets: { popup: ['initiative-new'] } }]">
+        <button class="btn btn-primary float-right jh-create-entity create-initiative" routerLink="/initiative-new">
             <span class="fa fa-plus"></span>
             <span >
             Create new Initiative
@@ -32,9 +32,7 @@
                 <td>{{initiative.text}}</td>
                 <td>{{initiative.status}}</td>
                 <td>{{initiative.creationDate | date:'medium'}}</td>
-                <td>
-                    {{initiative.initiatorId}}
-                </td>
+                <td>{{initiative.initiatorId}}</td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
@@ -44,7 +42,7 @@
                             <span class="d-none d-md-inline">View</span>
                         </button>
                         <button type="submit"
-                                [routerLink]="['/', { outlets: { popup: 'initiative/'+ initiative.id + '/edit'} }]"
+                                [routerLink]="['/initiative', initiative.id, 'edit']"
                                 replaceUrl="true"
                                 class="btn btn-primary btn-sm">
                             <span class="fa fa-pencil"></span>

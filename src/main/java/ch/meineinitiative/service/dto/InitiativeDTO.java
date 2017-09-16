@@ -6,6 +6,8 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
+
+import ch.meineinitiative.domain.Comment;
 import ch.meineinitiative.domain.enumeration.Status;
 
 /**
@@ -24,6 +26,8 @@ public class InitiativeDTO implements Serializable {
     private ZonedDateTime creationDate;
 
     private Long initiatorId;
+
+    private Set<CommentDTO> comments = new HashSet<>();
 
     private Set<UserDTO> citizenSupporters = new HashSet<>();
 
@@ -91,6 +95,15 @@ public class InitiativeDTO implements Serializable {
 
     public void setPoliticianSupporters(Set<UserDTO> users) {
         this.politicianSupporters = users;
+    }
+
+
+    public Set<CommentDTO> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<CommentDTO> comments) {
+        this.comments = comments;
     }
 
     @Override

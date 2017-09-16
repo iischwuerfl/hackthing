@@ -1,4 +1,5 @@
 import { BaseEntity, User } from './../../shared';
+import {Comment} from '../comment/comment.model';
 
 export const enum Status {
     'PROPOSAL',
@@ -14,7 +15,7 @@ export class Initiative implements BaseEntity {
         public text?: string,
         public status?: Status,
         public creationDate?: any,
-        public comments?: BaseEntity[],
+        public comments?: Comment[],
         public initiatorId?: number,
         public citizenSupporters?: User[],
         public politicianSupporters?: User[],

@@ -4,6 +4,8 @@ import ch.meineinitiative.service.dto.InitiativeDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 /**
  * Service Interface for managing Initiative.
  */
@@ -24,6 +26,15 @@ public interface InitiativeService {
      *  @return the list of entities
      */
     Page<InitiativeDTO> findAll(Pageable pageable);
+
+    /**
+     *  Get all the initiatives.
+     *
+     *  @return the list of entities
+     * @param title
+     */
+    List<InitiativeDTO> findAll(String title);
+
 
     /**
      *  Get the "id" initiative.
