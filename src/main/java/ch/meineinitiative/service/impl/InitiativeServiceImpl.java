@@ -25,6 +25,9 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toCollection;
+
 
 /**
  * Service Implementation for managing Initiative.
@@ -193,17 +196,19 @@ public class InitiativeServiceImpl implements InitiativeService {
 
     private String createSearchQuery(String tag) {
         try {
-            StringBuilder stringBuilder = new StringBuilder();
+            Set<String> tags = new HashSet<>();
+
             TagDTO tagDTO = objectMapper.readValue(tag, TagDTO.class);
 
             Optional.ofNullable(tagDTO.getEntities())
-                .map(l -> l.stream().map(TagDTO.Entity::getSurface).filter(InitiativeServiceImpl::isNotDefault).collect(Collectors.joining(" ", "", " ")))
-                .ifPresent(stringBuilder::append);
+                .map(l -> l.stream().map(TagDTO.Entity::getSurface).filter(InitiativeServiceImpl::isNotDefault))
+                .ifPresent(s -> s.collect(toCollection(() -> tags)));
 
             Optional.ofNullable(tagDTO.getTags())
-                .map(l -> l.stream().map(TagDTO.Tag::getTerm).filter(InitiativeServiceImpl::isNotDefault).collect(Collectors.joining(" ")))
-                .ifPresent(stringBuilder::append);
-            return stringBuilder.toString();
+                .map(l -> l.stream().map(TagDTO.Tag::getTerm).filter(InitiativeServiceImpl::isNotDefault))
+                .ifPresent(s -> s.collect(toCollection(() -> tags)));
+
+            return tags.stream().collect(joining(" "));
         } catch (IOException e) {
             e.printStackTrace();
         }
