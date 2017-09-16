@@ -22,10 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -48,6 +45,13 @@ public class InitiativeServiceImpl implements InitiativeService {
 
     @Autowired
     private ObjectMapper objectMapper;
+    public static final Set<String> SET = new HashSet<>();
+
+    static {
+        SET.add("Volksinitiative");
+        SET.add("Bundesverfassung");
+        SET.add("Eidgenossenschaft");
+    }
 
     public InitiativeServiceImpl(InitiativeRepository initiativeRepository, InitiativeMapper initiativeMapper, TaggingService taggingService, SrfService srfService) {
         this.initiativeRepository = initiativeRepository;
@@ -102,7 +106,6 @@ public class InitiativeServiceImpl implements InitiativeService {
         log.debug("Request to save Initiative : {}", initiativeDTO);
         Initiative initiative = initiativeMapper.toEntity(initiativeDTO);
         if (StringUtils.isNotEmpty(initiative.getText())) {
-//            Map<String, Object> text = toBody(initiative.getText());
             String tag = taggingService.tag(initiative.getText(),
                 "entities,categories,tags", "a5a54e61-ad82-ecb9-dc44-b73c4d4b7741");
 
@@ -194,17 +197,23 @@ public class InitiativeServiceImpl implements InitiativeService {
             TagDTO tagDTO = objectMapper.readValue(tag, TagDTO.class);
 
             Optional.ofNullable(tagDTO.getEntities())
-                .map(l -> l.stream().map(TagDTO.Entity::getSurface).collect(Collectors.joining(" ", "", " ")))
+                .map(l -> l.stream().map(TagDTO.Entity::getSurface).filter(InitiativeServiceImpl::isNotDefault).collect(Collectors.joining(" ", "", " ")))
                 .ifPresent(stringBuilder::append);
 
             Optional.ofNullable(tagDTO.getTags())
-                .map(l -> l.stream().map(TagDTO.Tag::getTerm).collect(Collectors.joining(" ")))
+                .map(l -> l.stream().map(TagDTO.Tag::getTerm).filter(InitiativeServiceImpl::isNotDefault).collect(Collectors.joining(" ")))
                 .ifPresent(stringBuilder::append);
             return stringBuilder.toString();
         } catch (IOException e) {
             e.printStackTrace();
         }
         return "";
+    }
+
+    static boolean isNotDefault(String defaultStuff) {
+
+        return !SET.contains(defaultStuff);
+
     }
 
     /**
