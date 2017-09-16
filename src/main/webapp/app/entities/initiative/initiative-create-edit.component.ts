@@ -6,7 +6,6 @@ import {Observable} from 'rxjs/Rx';
 import {JhiEventManager, JhiAlertService} from 'ng-jhipster';
 
 import {Initiative} from './initiative.model';
-import {InitiativePopupService} from './initiative-popup.service';
 import {InitiativeService} from './initiative.service';
 import {User, UserService} from '../../shared';
 import {ResponseWrapper} from '../../shared';
@@ -25,7 +24,7 @@ export class InitiativeCreateEditComponent implements OnInit {
     users: User[];
     similarInitiativesOld: Initiative[];
     similarInitiativesNew: Initiative[];
-    title = new FormControl();
+    title: any = new FormControl();
 
     constructor(private alertService: JhiAlertService,
                 private initiativeService: InitiativeService,
@@ -81,6 +80,7 @@ export class InitiativeCreateEditComponent implements OnInit {
 
     save() {
         this.isSaving = true;
+        this.initiative.title = this.title._value;
         if (this.initiative.id !== undefined) {
             this.subscribeToSaveResponse(
                 this.initiativeService.update(this.initiative));
