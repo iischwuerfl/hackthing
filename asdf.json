@@ -1,0 +1,152 @@
+{
+    "timestamp": 1505572437407,
+    "tags": [
+        {
+            "term": "Alpengebiet",
+            "confidence": 0.9837692445601565
+        },
+        {
+            "term": "Volksinitiative",
+            "confidence": 0.9792095964719868
+        },
+        {
+            "term": "Transitverkehr",
+            "confidence": 0.9675283481422486
+        },
+        {
+            "term": "Bundesverfassung",
+            "confidence": 0.9382909496493222
+        },
+        {
+            "term": "Grenze",
+            "confidence": 0.936941209700331
+        },
+        {
+            "term": "Schiene",
+            "confidence": 0.8843273117200419
+        },
+        {
+            "term": "Lebensräume",
+            "confidence": 0.8617460088596202
+        }
+    ],
+    "entities": [
+        {
+            "end": 19,
+            "start": 4,
+            "uri": "https://www.wikidata.org/wiki/Q335918",
+            "label": "Volksinitiative",
+            "confidence": 31.38166618347168,
+            "surface": "Volksinitiative",
+            "type": "CONCEPT"
+        },
+        {
+            "end": 48,
+            "start": 32,
+            "uri": "https://www.wikidata.org/wiki/Q30921",
+            "label": "Bundesverfassung der Schweizerischen Eidgenossenschaft",
+            "confidence": 32.98469161987305,
+            "surface": "Bundesverfassung",
+            "type": "CONCEPT"
+        },
+        {
+            "end": 229,
+            "start": 215,
+            "uri": "https://www.wikidata.org/wiki/Q340117",
+            "label": "Transitverkehr",
+            "confidence": 54.419681549072266,
+            "surface": "Transitverkehr",
+            "type": "CONCEPT"
+        },
+        {
+            "end": 280,
+            "start": 272,
+            "uri": "https://www.wikidata.org/wiki/Q192154",
+            "label": "Embryophyta",
+            "confidence": 34.10333251953125,
+            "surface": "Pflanzen",
+            "type": "CONCEPT"
+        },
+        {
+            "end": 363,
+            "start": 344,
+            "uri": "https://www.wikidata.org/wiki/Q340117",
+            "label": "Transitverkehr",
+            "confidence": 55.223018646240234,
+            "surface": "Gütertransitverkehr",
+            "type": "CONCEPT"
+        },
+        {
+            "end": 408,
+            "start": 401,
+            "uri": "https://www.wikidata.org/wiki/Q3565868",
+            "label": "Schienenverkehr",
+            "confidence": 41.721744537353516,
+            "surface": "Schiene",
+            "type": "CONCEPT"
+        },
+        {
+            "end": 568,
+            "start": 562,
+            "uri": "https://www.wikidata.org/wiki/Q820655",
+            "label": "Gesetz",
+            "confidence": 31.290000915527344,
+            "surface": "Gesetz",
+            "type": "CONCEPT"
+        },
+        {
+            "end": 800,
+            "start": 784,
+            "uri": "https://www.wikidata.org/wiki/Q30921",
+            "label": "Bundesverfassung der Schweizerischen Eidgenossenschaft",
+            "confidence": 32.98469161987305,
+            "surface": "Bundesverfassung",
+            "type": "CONCEPT"
+        },
+        {
+            "end": 917,
+            "start": 910,
+            "uri": "https://www.wikidata.org/wiki/Q3565868",
+            "label": "Schienenverkehr",
+            "confidence": 41.721744537353516,
+            "surface": "Schiene",
+            "type": "CONCEPT"
+        }
+    ],
+    "categories": [
+        {
+            "label": "wissenschaft",
+            "confidence": 0.9027161634855597
+        },
+        {
+            "label": "wirtschaft",
+            "confidence": 0.09722773231282875
+        },
+        {
+            "label": "politik",
+            "confidence": 5.61040631381072E-5
+        },
+        {
+            "label": "internet",
+            "confidence": 1.3116006829663276E-10
+        },
+        {
+            "label": "reisen",
+            "confidence": 7.31174080491939E-12
+        },
+        {
+            "label": "kultur",
+            "confidence": 1.575801226989044E-15
+        },
+        {
+            "label": "auto+technik",
+            "confidence": 7.29872452800512E-17
+        },
+        {
+            "label": "sport",
+            "confidence": 7.165204221696756E-24
+        }
+    ],
+    "text": "Die Volksinitiative lautet:IDie Bundesverfassung wird wie folgt ergänzt:Art. 36quater (neu)1Der Bund schützt das Alpengebiet vor den negativen Auswirkungen des Transitverkehrs. Er begrenzt die Belastungen durch den Transitverkehr auf ein Mass, das für Menschen, Tiere und Pflanzen sowie deren Lebensräume nicht schädlich ist.2Der alpenquerende Gütertransitverkehr von Grenze zu Grenze erfolgt auf der Schiene. Der Bundesrat regelt die notwendigen Massnahmen auf dem Verordnungsweg. Ausnahmen sind nur zulässig, wenn sie unumgänglich sind. Diese müssen durch ein Gesetz näher bestimmt werden.3Die Transitstrassen-Kapazität im Alpengebiet darf nicht erhöht werden. Ausgenommen sind Umfahrungsstrassen zur Entlastung von Ortschaften vom Durchgangsverkehr.IIDie Übergangsbestimmungen der Bundesverfassung werden wie folgt ergänzt:Übergangsbestimmungen Art. 19 (neu)Die Verlagerung des Gütertransitverkehrs auf die Schiene muss zehn Jahre nach Annahme von Artikel 36quater Absatz 2 abgeschlossen sein.Stand: 15.09.2017",
+    "language": "de"
+}

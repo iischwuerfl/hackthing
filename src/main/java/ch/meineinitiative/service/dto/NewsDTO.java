@@ -21,6 +21,7 @@ public class NewsDTO {
         private String urn;
         private String imageUrl;
         private String description;
+        private String date;
 
         public String getTitle() {
             return title;
@@ -52,6 +53,14 @@ public class NewsDTO {
 
         public void setUrn(String urn) {
             this.urn = urn;
+        }
+
+        public String getDate() {
+            return date;
+        }
+
+        public void setDate(String date) {
+            this.date = date;
         }
     }
 }
