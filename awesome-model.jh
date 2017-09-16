@@ -1,0 +1,40 @@
+entity Initiative {
+    title String,
+    text String,
+    status Status,
+    creationDate ZonedDateTime
+}
+
+relationship ManyToOne {
+	Initiative{initiator} to User
+}
+
+relationship ManyToMany {
+	Initiative{citizenSupporters} to User
+}
+
+relationship ManyToMany {
+	Initiative{politicianSupporters} to User
+}
+
+entity Commentar {
+	text String,
+    creationDate ZonedDateTime
+}
+
+relationship ManyToOne {
+	Commentar{creator} to User
+}
+
+enum Status {
+	PROPOSAL, COLLECTING, VOTING, FINISHED
+}
+
+// Set pagination options
+paginate Commentar with infinite-scroll
+paginate Initiative with infinite-scroll
+
+dto * with mapstruct
+
+// Set service options to all except few
+service all with serviceImpl
