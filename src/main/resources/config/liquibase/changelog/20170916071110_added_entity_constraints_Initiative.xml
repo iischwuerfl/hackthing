@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <!--
+        Added the constraints for entity Initiative.
+    -->
+    <changeSet id="20170916071110-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="initiator_id"
+                                 baseTableName="initiative"
+                                 constraintName="fk_initiative_initiator_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"/>
+
+        <addForeignKeyConstraint baseColumnNames="initiatives_id"
+                                 baseTableName="initiative_citizen_supporters"
+                                 constraintName="fk_initiative_citizen_supporters_initiatives_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="initiative"/>
+        <addForeignKeyConstraint baseColumnNames="citizen_supporters_id"
+                                 baseTableName="initiative_citizen_supporters"
+                                 constraintName="fk_initiative_citizen_supporters_citizen_supporters_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"/>
+        
+        <addForeignKeyConstraint baseColumnNames="initiatives_id"
+                                 baseTableName="initiative_politician_supporters"
+                                 constraintName="fk_initiative_politician_supporters_initiatives_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="initiative"/>
+        <addForeignKeyConstraint baseColumnNames="politician_supporters_id"
+                                 baseTableName="initiative_politician_supporters"
+                                 constraintName="fk_initiative_politician_supporters_politician_supporters_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"/>
+        
+    </changeSet>
+</databaseChangeLog>

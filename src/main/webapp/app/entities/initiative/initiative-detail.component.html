@@ -1,0 +1,53 @@
+
+<div *ngIf="initiative">
+    <h2><span>Initiative</span> {{initiative.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span>Title</span></dt>
+        <dd>
+            <span>{{initiative.title}}</span>
+        </dd>
+        <dt><span>Text</span></dt>
+        <dd>
+            <span>{{initiative.text}}</span>
+        </dd>
+        <dt><span>Status</span></dt>
+        <dd>
+            <span>{{initiative.status}}</span>
+        </dd>
+        <dt><span>Creation Date</span></dt>
+        <dd>
+            <span>{{initiative.creationDate | date:'medium'}}</span>
+        </dd>
+        <dt><span>Initiator</span></dt>
+        <dd>
+            {{initiative.initiatorId}}
+        </dd>
+        <dt><span>Citizen Supporters</span></dt>
+        <dd>
+            <span *ngFor="let citizenSupporters of initiative.citizenSupporters; let last = last">
+                {{citizenSupporters.id}}{{last ? '' : ', '}}
+            </span>
+        </dd>
+        <dt><span>Politician Supporters</span></dt>
+        <dd>
+            <span *ngFor="let politicianSupporters of initiative.politicianSupporters; let last = last">
+                {{politicianSupporters.id}}{{last ? '' : ', '}}
+            </span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'initiative/'+ initiative.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span> Edit</span>
+    </button>
+</div>

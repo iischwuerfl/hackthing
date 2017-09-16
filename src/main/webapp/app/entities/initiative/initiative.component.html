@@ -1,0 +1,66 @@
+<div>
+    <h2>
+        <span>Initiatives</span>
+        <button class="btn btn-primary float-right jh-create-entity create-initiative" [routerLink]="['/', { outlets: { popup: ['initiative-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span >
+            Create new Initiative
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="initiatives">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+            <th jhiSortBy="id"><span>ID</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="title"><span>Title</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="text"><span>Text</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="status"><span>Status</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="creationDate"><span>Creation Date</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="initiatorId"><span>Initiator</span> <span class="fa fa-sort"></span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tr *ngFor="let initiative of initiatives ;trackBy: trackId">
+                <td><a [routerLink]="['../initiative', initiative.id ]">{{initiative.id}}</a></td>
+                <td>{{initiative.title}}</td>
+                <td>{{initiative.text}}</td>
+                <td>{{initiative.status}}</td>
+                <td>{{initiative.creationDate | date:'medium'}}</td>
+                <td>
+                    {{initiative.initiatorId}}
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../initiative', initiative.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'initiative/'+ initiative.id + '/edit'} }]"
+                                replaceUrl="true"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'initiative/'+ initiative.id + '/delete'} }]"
+                                replaceUrl="true"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
