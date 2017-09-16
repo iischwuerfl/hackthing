@@ -1,12 +1,12 @@
 package ch.meineinitiative.web.rest;
 
-import com.codahale.metrics.annotation.Timed;
 import ch.meineinitiative.service.InitiativeService;
+import ch.meineinitiative.service.dto.InitiativeDTO;
 import ch.meineinitiative.web.rest.util.HeaderUtil;
 import ch.meineinitiative.web.rest.util.PaginationUtil;
-import ch.meineinitiative.service.dto.InitiativeDTO;
-import io.swagger.annotations.ApiParam;
+import com.codahale.metrics.annotation.Timed;
 import io.github.jhipster.web.util.ResponseUtil;
+import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -94,6 +93,21 @@ public class InitiativeResource {
         Page<InitiativeDTO> page = initiativeService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/initiatives");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+
+    /**
+     * GET  /initiatives : get all the initiatives.
+     *
+     * @return the ResponseEntity with status 200 (OK) and the list of initiatives in body
+     */
+    @GetMapping("/initiatives/similar-title")
+    @Timed
+    public ResponseEntity<List<InitiativeDTO>> getMostSimilarTitledInitiatives(String title) {
+        log.debug("REST request to get a page of Initiatives");
+        List<InitiativeDTO> list = initiativeService.findAll(title);
+
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
     /**
