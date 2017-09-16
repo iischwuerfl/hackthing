@@ -2,12 +2,10 @@ package ch.meineinitiative.web.rest;
 
 import ch.meineinitiative.domain.User;
 import ch.meineinitiative.domain.enumeration.Status;
-import ch.meineinitiative.repository.SrfService;
 import ch.meineinitiative.security.SecurityUtils;
 import ch.meineinitiative.service.InitiativeService;
 import ch.meineinitiative.service.UserService;
 import ch.meineinitiative.service.dto.InitiativeDTO;
-import ch.meineinitiative.service.dto.UserDTO;
 import ch.meineinitiative.service.mapper.UserMapper;
 import ch.meineinitiative.web.rest.util.HeaderUtil;
 import ch.meineinitiative.web.rest.util.PaginationUtil;
@@ -122,6 +120,33 @@ public class InitiativeResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/initiatives");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
+
+    /**
+     * @param pageable the pagination information
+     * @return the ResponseEntity with status 200 (OK) and the list of initiatives in body
+     */
+    @GetMapping("/initiatives/old")
+    @Timed
+    public ResponseEntity<List<InitiativeDTO>> getAllOldInitiatives(@ApiParam Pageable pageable) {
+        log.debug("REST request to get a page of Initiatives");
+        Page<InitiativeDTO> page = initiativeService.findAllOld(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/initiatives");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+    /**
+     * @param pageable the pagination information
+     * @return the ResponseEntity with status 200 (OK) and the list of initiatives in body
+     */
+    @GetMapping("/initiatives/new")
+    @Timed
+    public ResponseEntity<List<InitiativeDTO>> getAllNewInitiatives(@ApiParam Pageable pageable) {
+        log.debug("REST request to get a page of Initiatives");
+        Page<InitiativeDTO> page = initiativeService.findAllNew(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/initiatives");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
 
     /**
      * GET  /initiatives/similar-title : get the most similar titled initiatives.
