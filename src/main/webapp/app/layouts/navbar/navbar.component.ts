@@ -42,7 +42,7 @@ export class NavbarComponent implements OnInit {
             this.swaggerEnabled = profileInfo.swaggerEnabled;
         });
         this.principal.identity().then((account) => {
-            this.account = this.copyAccount(account);
+            this.account = account;
         });
     }
 
@@ -70,10 +70,5 @@ export class NavbarComponent implements OnInit {
 
     getImageUrl() {
         return this.isAuthenticated() ? this.principal.getImageUrl() : null;
-    }
-
-    copyAccount(account) {
-        return new Account(account.activated, null, account.email, account.firstName, account.langKey, account.lastName, account.login, account.imageUrl)
-
     }
 }

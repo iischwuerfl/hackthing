@@ -1,5 +1,5 @@
 import { BaseEntity, User } from './../../shared';
-import {Comment} from "../comment/comment.model";
+import {Comment} from '../comment/comment.model';
 
 export const enum Status {
     'PROPOSAL',

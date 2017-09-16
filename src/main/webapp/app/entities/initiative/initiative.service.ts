@@ -1,23 +1,32 @@
-import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
-import { SERVER_API_URL } from '../../app.constants';
+import {Injectable} from '@angular/core';
+import {Http, Response} from '@angular/http';
+import {Observable} from 'rxjs/Rx';
+import {SERVER_API_URL} from '../../app.constants';
 
-import { JhiDateUtils } from 'ng-jhipster';
+import {JhiDateUtils} from 'ng-jhipster';
 
-import { Initiative } from './initiative.model';
-import { ResponseWrapper, createRequestOption } from '../../shared';
+import {Initiative} from './initiative.model';
+import {ResponseWrapper, createRequestOption} from '../../shared';
 
 @Injectable()
 export class InitiativeService {
 
     private resourceUrl = SERVER_API_URL + 'api/initiatives';
-
-    constructor(private http: Http, private dateUtils: JhiDateUtils) { }
+    private similarInitUrls = this.resourceUrl + '/similar-title';
+    constructor(private http: Http, private dateUtils: JhiDateUtils) {
+    }
 
     create(initiative: Initiative): Observable<Initiative> {
         const copy = this.convert(initiative);
         return this.http.post(this.resourceUrl, copy).map((res: Response) => {
+            const jsonResponse = res.json();
+            this.convertItemFromServer(jsonResponse);
+            return jsonResponse;
+        });
+    }
+
+    findSimilar(title: String): Observable<Initiative[]> {
+        return this.http.get(`${this.similarInitUrls}/${title}`).map((res: Response) => {
             const jsonResponse = res.json();
             this.convertItemFromServer(jsonResponse);
             return jsonResponse;

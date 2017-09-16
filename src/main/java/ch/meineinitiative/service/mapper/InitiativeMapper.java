@@ -11,10 +11,8 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = {UserMapper.class, CommentMapper.class, })
 public interface InitiativeMapper extends EntityMapper <InitiativeDTO, Initiative> {
 
-    @Mapping(source = "initiator.id", target = "initiatorId")
     InitiativeDTO toDto(Initiative initiative);
 
-    @Mapping(source = "initiatorId", target = "initiator")
     Initiative toEntity(InitiativeDTO initiativeDTO);
     default Initiative fromId(Long id) {
         if (id == null) {

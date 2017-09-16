@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 /**
  * Mapper for the entity User and its DTO called UserDTO.
- *
+ * <p>
  * Normal mappers are generated using MapStruct, this one is hand-coded as MapStruct
  * support is still in beta, and requires a manual step with an IDE.
  */
@@ -42,9 +42,11 @@ public class UserMapper {
             user.setImageUrl(userDTO.getImageUrl());
             user.setActivated(userDTO.isActivated());
             user.setLangKey(userDTO.getLangKey());
-            Set<Authority> authorities = this.authoritiesFromStrings(userDTO.getAuthorities());
-            if(authorities != null) {
-                user.setAuthorities(authorities);
+            if (userDTO.getAuthorities() != null) {
+                Set<Authority> authorities = this.authoritiesFromStrings(userDTO.getAuthorities());
+                if (authorities != null) {
+                    user.setAuthorities(authorities);
+                }
             }
             return user;
         }

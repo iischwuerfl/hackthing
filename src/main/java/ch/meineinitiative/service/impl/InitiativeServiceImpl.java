@@ -1,6 +1,5 @@
 package ch.meineinitiative.service.impl;
 
-import ch.meineinitiative.PdfReader;
 import ch.meineinitiative.domain.Initiative;
 import ch.meineinitiative.repository.InitiativeRepository;
 import ch.meineinitiative.service.InitiativeService;

@@ -1,15 +1,15 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Response } from '@angular/http';
+import {Component, OnInit, OnDestroy} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Response} from '@angular/http';
 
-import { Observable } from 'rxjs/Rx';
-import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+import {Observable} from 'rxjs/Rx';
+import {JhiEventManager, JhiAlertService} from 'ng-jhipster';
 
-import { Initiative } from './initiative.model';
-import { InitiativePopupService } from './initiative-popup.service';
-import { InitiativeService } from './initiative.service';
-import { User, UserService } from '../../shared';
-import { ResponseWrapper } from '../../shared';
+import {Initiative} from './initiative.model';
+import {InitiativePopupService} from './initiative-popup.service';
+import {InitiativeService} from './initiative.service';
+import {User, UserService} from '../../shared';
+import {ResponseWrapper} from '../../shared';
 import {DatePipe} from '@angular/common';
 
 @Component({
@@ -22,26 +22,27 @@ export class InitiativeCreateEditComponent implements OnInit {
     isSaving: boolean;
     routeSub: any;
     users: User[];
+    similarInitiatives: Initiative[];
 
-    constructor(
-        private alertService: JhiAlertService,
-        private initiativeService: InitiativeService,
-        private userService: UserService,
-        private eventManager: JhiEventManager,
-        private route: ActivatedRoute,
-        private datePipe: DatePipe,
-        private router: Router
-    ) {
+    constructor(private alertService: JhiAlertService,
+                private initiativeService: InitiativeService,
+                private userService: UserService,
+                private eventManager: JhiEventManager,
+                private route: ActivatedRoute,
+                private datePipe: DatePipe,
+                private router: Router) {
     }
 
     ngOnInit() {
         this.isSaving = false;
         this.userService.query()
-            .subscribe((res: ResponseWrapper) => { this.users = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+            .subscribe((res: ResponseWrapper) => {
+                this.users = res.json;
+            }, (res: ResponseWrapper) => this.onError(res.json));
         this.routeSub = this.route.params.subscribe((params) => {
 
             const id = params['id'];
-            if ( id) {
+            if (id) {
                 this.initiativeService.find(id).subscribe((initiative) => {
                     initiative.creationDate = this.datePipe
                         .transform(initiative.creationDate, 'yyyy-MM-ddTHH:mm:ss');
@@ -70,6 +71,13 @@ export class InitiativeCreateEditComponent implements OnInit {
                 this.initiativeService.create(this.initiative));
         }
     }
+    onKey(event: any) {
+        console.log('typing...');
+        if (event.target.value.length > 4) {
+            this.initiativeService.findSimilar(event.target.value).subscribe((res: Initiative[]) =>
+                this.similarInitiatives = res);
+        }
+    }
 
     private subscribeToSaveResponse(result: Observable<Initiative>) {
         result.subscribe((res: Initiative) =>
@@ -77,7 +85,7 @@ export class InitiativeCreateEditComponent implements OnInit {
     }
 
     private onSaveSuccess(result: Initiative) {
-        this.eventManager.broadcast({ name: 'initiativeListModification', content: 'OK'});
+        this.eventManager.broadcast({name: 'initiativeListModification', content: 'OK'});
         this.router.navigate(['/initiative']);
         this.isSaving = false;
     }
@@ -114,10 +122,9 @@ export class InitiativePopupComponent implements OnInit, OnDestroy {
 
     routeSub: any;
 
-    constructor(
-        private route: ActivatedRoute,
-        private initiativePopupService: InitiativePopupService
-    ) {}
+    constructor(private route: ActivatedRoute,
+                private initiativePopupService: InitiativePopupService) {
+    }
 
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
