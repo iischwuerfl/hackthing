@@ -2,7 +2,8 @@ entity Initiative {
     title String,
     text String,
     status Status,
-    creationDate ZonedDateTime
+    creationDate ZonedDateTime,
+    tag String
 }
 
 relationship OneToMany {

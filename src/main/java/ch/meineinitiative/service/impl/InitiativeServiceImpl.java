@@ -2,9 +2,11 @@ package ch.meineinitiative.service.impl;
 
 import ch.meineinitiative.domain.Initiative;
 import ch.meineinitiative.repository.InitiativeRepository;
+import ch.meineinitiative.repository.TaggingService;
 import ch.meineinitiative.service.InitiativeService;
 import ch.meineinitiative.service.dto.InitiativeDTO;
 import ch.meineinitiative.service.mapper.InitiativeMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,9 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -32,9 +32,12 @@ public class InitiativeServiceImpl implements InitiativeService {
 
     private final InitiativeMapper initiativeMapper;
 
-    public InitiativeServiceImpl(InitiativeRepository initiativeRepository, InitiativeMapper initiativeMapper) {
+    private final TaggingService taggingService;
+
+    public InitiativeServiceImpl(InitiativeRepository initiativeRepository, InitiativeMapper initiativeMapper, TaggingService taggingService) {
         this.initiativeRepository = initiativeRepository;
         this.initiativeMapper = initiativeMapper;
+        this.taggingService = taggingService;
     }
 
     public static double tanimoto(String string1, String string2) {
@@ -82,8 +85,22 @@ public class InitiativeServiceImpl implements InitiativeService {
     public InitiativeDTO save(InitiativeDTO initiativeDTO) {
         log.debug("Request to save Initiative : {}", initiativeDTO);
         Initiative initiative = initiativeMapper.toEntity(initiativeDTO);
+        if (StringUtils.isNotEmpty(initiative.getText())) {
+            Map<String, Object> text = toBody(initiative.getText());
+            String tag = taggingService.tag(Optional.ofNullable(initiative.getTitle()).orElse(""),
+                "entities,categories,tags", text, "a5a54e61-ad82-ecb9-dc44-b73c4d4b7741");
+
+            initiative.setTag(tag);
+        }
+
         initiative = initiativeRepository.save(initiative);
         return initiativeMapper.toDto(initiative);
+    }
+
+    private Map<String, Object> toBody(String text) {
+        HashMap<String, Object> text1 = new HashMap<>();
+        text1.put("text", text);
+        return text1;
     }
 
     /**

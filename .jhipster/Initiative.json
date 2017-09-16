@@ -47,6 +47,10 @@
         {
             "fieldName": "creationDate",
             "fieldType": "ZonedDateTime"
+        },
+        {
+            "fieldName": "tag",
+            "fieldType": "String"
         }
     ],
     "changelogDate": "20170916071110",

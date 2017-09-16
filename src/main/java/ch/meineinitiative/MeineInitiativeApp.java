@@ -11,8 +11,11 @@ import org.springframework.boot.actuate.autoconfigure.MetricRepositoryAutoConfig
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cloud.netflix.feign.EnableFeignClients;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
+import org.springframework.web.filter.CommonsRequestLoggingFilter;
 
 import javax.annotation.PostConstruct;
 import java.net.InetAddress;
@@ -22,6 +25,7 @@ import java.util.Collection;
 import java.util.List;
 
 @ComponentScan
+@EnableFeignClients
 @EnableAutoConfiguration(exclude = {MetricFilterAutoConfiguration.class, MetricRepositoryAutoConfiguration.class})
 @EnableConfigurationProperties({LiquibaseProperties.class, ApplicationProperties.class})
 public class MeineInitiativeApp {
@@ -54,6 +58,15 @@ public class MeineInitiativeApp {
         }
     }
 
+    @Bean
+    public CommonsRequestLoggingFilter requestLoggingFilter() {
+        CommonsRequestLoggingFilter loggingFilter = new CommonsRequestLoggingFilter();
+        loggingFilter.setIncludeClientInfo(true);
+        loggingFilter.setIncludeQueryString(true);
+        loggingFilter.setIncludePayload(true);
+        return loggingFilter;
+    }
+
     /**
      * Main method, used to run the application.
      *
@@ -62,10 +75,10 @@ public class MeineInitiativeApp {
      */
     public static void main(String[] args) throws UnknownHostException {
         // Crawler
-        List<InitiativeCrawler.InitiativeCral> initiaveCrawlList = InitiativeCrawler.crawl();
-        for (InitiativeCrawler.InitiativeCral initiativeCral : initiaveCrawlList) {
-            System.out.println(initiativeCral.title);
-        }
+//        List<InitiativeCrawler.InitiativeCral> initiaveCrawlList = InitiativeCrawler.crawl();
+//        for (InitiativeCrawler.InitiativeCral initiativeCral : initiaveCrawlList) {
+//            System.out.println(initiativeCral.title);
+//        }
         SpringApplication app = new SpringApplication(MeineInitiativeApp.class);
         DefaultProfileUtil.addDefaultProfile(app);
         Environment env = app.run(args).getEnvironment();

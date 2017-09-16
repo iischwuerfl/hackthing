@@ -1,15 +1,13 @@
 package ch.meineinitiative.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import ch.meineinitiative.domain.enumeration.Status;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.Objects;
-
-import ch.meineinitiative.domain.enumeration.Status;
+import java.util.Set;
 
 /**
  * A Initiative.
@@ -40,19 +38,22 @@ public class Initiative implements Serializable {
     @OneToMany(mappedBy = "initiative", fetch = FetchType.EAGER)
     private Set<Comment> comments = new HashSet<>();
 
+    @Column(name = "tag")
+    private String tag;
+
     @ManyToOne
     private User initiator;
 
     @ManyToMany
     @JoinTable(name = "initiative_citizen_supporters",
-               joinColumns = @JoinColumn(name="initiatives_id", referencedColumnName="id"),
-               inverseJoinColumns = @JoinColumn(name="citizen_supporters_id", referencedColumnName="id"))
+        joinColumns = @JoinColumn(name = "initiatives_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "citizen_supporters_id", referencedColumnName = "id"))
     private Set<User> citizenSupporters = new HashSet<>();
 
     @ManyToMany
     @JoinTable(name = "initiative_politician_supporters",
-               joinColumns = @JoinColumn(name="initiatives_id", referencedColumnName="id"),
-               inverseJoinColumns = @JoinColumn(name="politician_supporters_id", referencedColumnName="id"))
+        joinColumns = @JoinColumn(name = "initiatives_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "politician_supporters_id", referencedColumnName = "id"))
     private Set<User> politicianSupporters = new HashSet<>();
 
     // jhipster-needle-entity-add-field - Jhipster will add fields here, do not remove
@@ -194,6 +195,14 @@ public class Initiative implements Serializable {
     public Initiative removePoliticianSupporters(User user) {
         this.politicianSupporters.remove(user);
         return this;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 
     public void setPoliticianSupporters(Set<User> users) {

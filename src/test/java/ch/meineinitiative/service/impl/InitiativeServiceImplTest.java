@@ -49,7 +49,7 @@ public class InitiativeServiceImplTest {
 
     @Before
     public void setUp() throws Exception {
-        impl = new InitiativeServiceImpl(initiativeRepository, initiativeMapper);
+        impl = new InitiativeServiceImpl(initiativeRepository, initiativeMapper, null);
     }
 
     @Test
