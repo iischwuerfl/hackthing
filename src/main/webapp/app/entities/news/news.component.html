@@ -2,9 +2,9 @@
 
 <div class="activity-feed">
     <div class="feed-item" *ngFor="let news of newsToShow | orderBy: 'date':true">
-        <div class="date">{{news.date | date:shortDate}}</div>
+        <div class="date">{{news.date | date:'mediumDate'}}</div>
         <div class="title">{{news.title}}</div>
-        <div class="descriptionClick" (click)="toggleDescription(news)">Description</div>
+        <div *ngIf="news.description!=null"class="descriptionClick description" (click)="toggleDescription(news)">Description</div>
         <div class="description" [hidden]="!news.showDetails">{{news.description}}</div>
         <img [src]="news.imageUrl" class="img-responsive" width="200">
     </div>

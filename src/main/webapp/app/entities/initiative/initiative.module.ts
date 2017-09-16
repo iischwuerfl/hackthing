@@ -14,8 +14,8 @@ import {
     initiativeRoute,
     initiativePopupRoute,
 } from './';
-import {NewsComponent} from '../news/news.component'
 import {ReactiveFormsModule} from '@angular/forms';
+import {NewsComponent} from '../news/news.component';
 
 const ENTITY_STATES = [
     ...initiativeRoute,
@@ -34,8 +34,7 @@ const ENTITY_STATES = [
         InitiativeDetailComponent,
         InitiativeCreateEditComponent,
         InitiativeDeleteDialogComponent,
-        InitiativeDeletePopupComponent,
-        NewsComponent
+        InitiativeDeletePopupComponent
     ],
     entryComponents: [
         InitiativeComponent,

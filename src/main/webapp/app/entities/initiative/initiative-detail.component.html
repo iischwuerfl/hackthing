@@ -2,13 +2,17 @@
     <div class="col-sm-8">
         <div *ngIf="initiative">
             <h2><span>{{initiative.title}}</span></h2>
-            <div *ngIf="initiative.tags !== null" class="tags"><div *ngFor="let tag of initiative.tags" class="info"><span class="fa fa-tag"></span> {{tag}}</div><div style="clear:both"></div></div>
+            <div *ngIf="initiative.tags !== null" class="tags">
+                <div *ngFor="let tag of initiative.tags" class="info"><span class="fa fa-tag"></span> {{tag}}</div>
+                <div style="clear:both"></div>
+            </div>
 
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
-                <dt><span>Initiative description</span></dt>
-                <dd>
+                <dt class="initDescription"><span (click)="toggleDescription(initiative)">Initiative description</span>
+                </dt>
+                <dd [hidden]="!initiative.showDetails">
                     <span>{{initiative.text}}</span>
                 </dd>
                 <div *ngIf="initiative.status !== null">
@@ -38,6 +42,34 @@
                     </dd>
                 </div>
             </dl>
+            <div style="border-bottom: 1px solid rgba(0, 0, 0, 0.1); border-top: 1px solid rgba(0, 0, 0, 0.1)">
+                <h3>Supporters</h3>
+                <div class="media">
+                    <a class="pull-left" [routerLink]="'/politician/walter+thurnherr'">
+                        <img class="media-object dp rounded-circle" src="../../../content/images/Thurnherr.jpg"
+                             style="width: 100px;height:100px;">
+                    </a>
+                    <div class="media-body">
+                        <h4 class="media-heading">Walter Thurnherr
+                            <small> CVP</small>
+                        </h4>
+                        <h5>Bundeskanzler</h5>
+                    </div>
+                </div>
+                <div class="media">
+                        <a class="pull-left" [routerLink]="'/politician/bastian+girod'">
+
+                        <img class="media-object dp rounded-circle" src="../../../content/images/Girod.jpg"
+                             style="width: 100px;height:100px;">
+                    </a>
+                    <div class="media-body">
+                        <h4 class="media-heading">Bastian Girod
+                            <small> Grüne</small>
+                        </h4>
+                        <h5>Umweltwissenschaftler</h5>
+                    </div>
+                </div>
+            </div>
             <div>
                 <h3>Comments</h3>
                 <i *ngIf="initiative.comments.length== 0">There are currently no comments. Be the first

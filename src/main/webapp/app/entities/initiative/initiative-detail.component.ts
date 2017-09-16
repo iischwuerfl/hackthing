@@ -64,4 +64,8 @@ export class InitiativeDetailComponent implements OnInit, OnDestroy {
     getRandomLikeNumber() {
         return Math.floor((Math.random() * 20) + 1);
     }
+
+    toggleDescription(initiative: any) {
+        initiative.showDetails = !initiative.showDetails;
+    }
 }

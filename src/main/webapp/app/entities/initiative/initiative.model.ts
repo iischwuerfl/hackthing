@@ -20,6 +20,6 @@ export class Initiative implements BaseEntity {
                 public newsFeed?: NewsFeed,
                 public initiatorId?: number,
                 public citizenSupporters?: User[],
-                public politicianSupporters?: User[],) {
+                public politicianSupporters?: User[]) {
     }
 }

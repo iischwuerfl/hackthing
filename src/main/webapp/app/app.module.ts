@@ -24,7 +24,6 @@ import {
     PageRibbonComponent,
     ErrorComponent
 } from './layouts';
-import { PoliticianComponent } from './politician/politician.component';
 
 @NgModule({
     imports: [
@@ -43,8 +42,7 @@ import { PoliticianComponent } from './politician/politician.component';
         NavbarComponent,
         ErrorComponent,
         PageRibbonComponent,
-        FooterComponent,
-        PoliticianComponent
+        FooterComponent
     ],
     providers: [
         ProfileService,

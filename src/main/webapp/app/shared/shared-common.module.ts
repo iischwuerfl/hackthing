@@ -6,6 +6,7 @@ import {
     JhiAlertComponent,
     JhiAlertErrorComponent
 } from './';
+import {NewsComponent} from '../entities/news/news.component';
 
 @NgModule({
     imports: [
@@ -13,7 +14,8 @@ import {
     ],
     declarations: [
         JhiAlertComponent,
-        JhiAlertErrorComponent
+        JhiAlertErrorComponent,
+        NewsComponent
     ],
     providers: [
         Title,
@@ -25,7 +27,8 @@ import {
     exports: [
         MeineInitiativeSharedLibsModule,
         JhiAlertComponent,
-        JhiAlertErrorComponent
+        JhiAlertErrorComponent,
+        NewsComponent
     ]
 })
 export class MeineInitiativeSharedCommonModule {}
