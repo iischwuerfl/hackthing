@@ -10,9 +10,9 @@
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
-                <dt class="initDescription"><span (click)="toggleDescription(initiative)">Initiative description</span>
+                <dt class="initDescription"><span>Initiative description</span>
                 </dt>
-                <dd [hidden]="!initiative.showDetails">
+                <dd>
                     <span>{{initiative.text}}</span>
                 </dd>
                 <div *ngIf="initiative.status !== null">
@@ -24,12 +24,6 @@
                     <dd>
                         <span>{{initiative.creationDate | date:'medium'}}</span>
                     </dd>
-                    <dt><span>Initiator</span></dt>
-                    <dd>
-                        {{initiative.initiatorId}}
-                    </dd>
-                    <dt><span>Citizen Supporters</span></dt>
-                    <dd>
             <span *ngFor="let citizenSupporters of initiative.citizenSupporters; let last = last">
                 {{citizenSupporters.id}}{{last ? '' : ', '}}
             </span>

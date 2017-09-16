@@ -131,13 +131,21 @@
 
 .tags .info {
     color: #FFF;
-    background-color: #5BC0DE;
-    border-color: #46B8DA;
+    background-color: #5281C2;
+    border-color: #5281C2;
     width: fit-content;
     float: left;
-    font-size:10px;
-    padding:5px;
-    margin:10px 10px 0px 0px;
+    font-size: 10px;
+    padding: 5px;
+    margin: 10px 10px 0px 0px;
+}
+
+.btn-info {
+    background-color: #5281C2 !important;
+}
+
+.btn-primary{
+    background-color: #5281C2 !important;
 }
 
 .initDescription{

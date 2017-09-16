@@ -10,7 +10,8 @@ import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
 
 @Component({
     selector: 'jhi-initiative',
-    templateUrl: './initiative.component.html'
+    templateUrl: './initiative.component.html',
+    styleUrls : ['initiative.scss']
 })
 export class InitiativeComponent implements OnInit, OnDestroy {
 

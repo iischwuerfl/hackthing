@@ -14,7 +14,8 @@ import {FormControl} from '@angular/forms';
 
 @Component({
     selector: 'jhi-initiative',
-    templateUrl: './initiative-create-edit.component.html'
+    templateUrl: './initiative-create-edit.component.html',
+    styleUrls: ['initiative.scss']
 })
 export class InitiativeCreateEditComponent implements OnInit {
 
