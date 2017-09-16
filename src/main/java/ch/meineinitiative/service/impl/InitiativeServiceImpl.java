@@ -184,7 +184,10 @@ public class InitiativeServiceImpl implements InitiativeService {
         InitiativeDTO initiativeDTO = initiativeMapper.toDto(one);
 
         if (one.getTag() != null) {
-            String searchQuery = createSearchQuery(one.getTag());
+            Set<String> tags = toTagSet(one.getTag());
+            initiativeDTO.setTags(tags);
+
+            String searchQuery = createSearchQuery(tags);
             if (StringUtils.isNotEmpty(searchQuery)) {
                 NewsDTO news = srfService.findByTags(searchQuery, "VERaczKNt8KjWZs8ejMPAWXr1CXM4HJX");
                 initiativeDTO.setNewsFeed(news);
@@ -194,7 +197,11 @@ public class InitiativeServiceImpl implements InitiativeService {
         return initiativeDTO;
     }
 
-    private String createSearchQuery(String tag) {
+    private String createSearchQuery(Set<String> strings) {
+        return strings.stream().collect(joining(" "));
+    }
+
+    private Set<String> toTagSet(String tag) {
         try {
             Set<String> tags = new HashSet<>();
 
@@ -207,12 +214,10 @@ public class InitiativeServiceImpl implements InitiativeService {
             Optional.ofNullable(tagDTO.getTags())
                 .map(l -> l.stream().map(TagDTO.Tag::getTerm).filter(InitiativeServiceImpl::isNotDefault))
                 .ifPresent(s -> s.collect(toCollection(() -> tags)));
-
-            return tags.stream().collect(joining(" "));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "";
+        return Collections.emptySet();
     }
 
     static boolean isNotDefault(String defaultStuff) {
