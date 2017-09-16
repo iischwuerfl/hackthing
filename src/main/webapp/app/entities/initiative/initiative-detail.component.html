@@ -1,103 +1,112 @@
-
-<div *ngIf="initiative" id="test">
-    <h2><span>Initiative</span> {{initiative.id}}</h2>
-    <hr>
-    <jhi-alert-error></jhi-alert-error>
-    <dl class="row-md jh-entity-details">
-        <dt><span>Title</span></dt>
-        <dd>
-            <span>{{initiative.title}}</span>
-        </dd>
-        <dt><span>Text</span></dt>
-        <dd>
-            <span>{{initiative.text}}</span>
-        </dd>
-        <div *ngIf="initiative.status !== null">
-        <dt><span>Status</span></dt>
-        <dd>
-            <span>{{initiative.status}}</span>
-        </dd>
-        <dt><span>Creation Date</span></dt>
-        <dd>
-            <span>{{initiative.creationDate | date:'medium'}}</span>
-        </dd>
-        <dt><span>Initiator</span></dt>
-        <dd>
-            {{initiative.initiatorId}}
-        </dd>
-        <dt><span>Citizen Supporters</span></dt>
-        <dd>
+<div class="row">
+    <div class="col-sm-8">
+        <div *ngIf="initiative">
+            <h2><span>{{initiative.title}}</span></h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Initiative description</span></dt>
+                <dd>
+                    <span>{{initiative.text}}</span>
+                </dd>
+                <div *ngIf="initiative.status !== null">
+                    <dt><span>Status</span></dt>
+                    <dd>
+                        <span>{{initiative.status}}</span>
+                    </dd>
+                    <dt><span>Creation Date</span></dt>
+                    <dd>
+                        <span>{{initiative.creationDate | date:'medium'}}</span>
+                    </dd>
+                    <dt><span>Initiator</span></dt>
+                    <dd>
+                        {{initiative.initiatorId}}
+                    </dd>
+                    <dt><span>Citizen Supporters</span></dt>
+                    <dd>
             <span *ngFor="let citizenSupporters of initiative.citizenSupporters; let last = last">
                 {{citizenSupporters.id}}{{last ? '' : ', '}}
             </span>
-        </dd>
-        <dt><span>Politician Supporters</span></dt>
-        <dd>
+                    </dd>
+                    <dt><span>Politician Supporters</span></dt>
+                    <dd>
             <span *ngFor="let politicianSupporters of initiative.politicianSupporters; let last = last">
                 {{politicianSupporters.id}}{{last ? '' : ', '}}
             </span>
-        </dd>
-        </div>
-    </dl>
-    <div>
-        <h3>Comments</h3>
-        <i *ngIf="initiative.comments.length== 0">There are currently no comments. Be the first one!<br /><br /></i>
-        <div class="comment-list">
-            <!-- First Comment -->
-            <div class="row" *ngFor="let comment of initiative.comments">
-                <div class="panel panel-white post panel-shadow">
-                    <div class="post-heading">
-                        <div class="pull-left image">
-                            <img src="http://bootdey.com/img/Content/user_1.jpg" class="img-circle avatar" alt="user profile image">
-                        </div>
-                        <div class="pull-left meta">
-                            <div class="title h5">
-                                <a href="#"><b>{{comment.creatorId}}</b></a>
-                                made a post.
+                    </dd>
+                </div>
+            </dl>
+            <div>
+                <h3>Comments</h3>
+                <i *ngIf="initiative.comments.length== 0">There are currently no comments. Be the first
+                    one!<br/><br/></i>
+                <div class="comment-list">
+                    <!-- First Comment -->
+                    <div class="row" *ngFor="let comment of initiative.comments">
+                        <div class="panel panel-white post panel-shadow">
+                            <div class="post-heading">
+                                <div class="pull-left image">
+                                    <img src="http://bootdey.com/img/Content/user_1.jpg" class="img-circle avatar"
+                                         alt="user profile image">
+                                </div>
+                                <div class="pull-left meta">
+                                    <div class="title h5">
+                                        <a href="#"><b>{{comment.creatorId}}</b></a>
+                                        made a post.
+                                    </div>
+                                    <h6 class="text-muted time">{{comment.creationDate | date:'fullDate'}}</h6>
+                                </div>
                             </div>
-                            <h6 class="text-muted time">{{comment.creationDate | date:'fullDate'}}</h6>
-                        </div>
-                    </div>
-                    <div class="post-description">
-                        <p>{{comment.text}}
-                        <div class="stats">
-                            <a href="" class="btn btn-default stat-item">
-                                <i class="fa fa-thumbs-up icon"> {{getRandomLikeNumber()}}</i>
-                            </a>
+                            <div class="post-description">
+                                <p>{{comment.text}}
+                                <div class="stats">
+                                    <a href="" class="btn btn-default stat-item">
+                                        <i class="fa fa-thumbs-up icon"> {{getRandomLikeNumber()}}</i>
+                                    </a>
 
-                        </div>
-                    </div>
-                    <div class="post-footer">
-                        <div class="input-group">
-                            <input class="form-control" placeholder="Add a comment" type="text">
-                            <span class="input-group-addon">
+                                </div>
+                            </div>
+                            <div class="post-footer">
+                                <div class="input-group">
+                                    <input class="form-control" placeholder="Add a comment" type="text">
+                                    <span class="input-group-addon">
                         <a href="#"><i class="fa fa-edit"></i></a>
                     </span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            </div>
-    </div>
 
-    <button class="btn btn-primary float-right jh-create-entity create-comment" [routerLink]="['/initiative/', initiative.id, 'comment-new']">
-        <span class="fa fa-plus"></span>
-        <span >
+            <button class="btn btn-primary float-right jh-create-entity create-comment"
+                    [routerLink]="['/initiative/', initiative.id, 'comment-new']">
+                <span class="fa fa-plus"></span>
+                <span>
             Create new Comment
             </span>
-    </button>
+            </button>
 
 
-    <button type="submit"
-            (click)="previousState()"
-            class="btn btn-info">
-        <span class="fa fa-arrow-left"></span>&nbsp;<span> Back</span>
-    </button>
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <span class="fa fa-arrow-left"></span>&nbsp;<span> Back</span>
+            </button>
 
-    <button *ngIf="account.id==initiative.initiatorId" type="button"
-            [routerLink]="['/initiative', initiative.id, 'edit']"
-            replaceUrl="true"
-            class="btn btn-primary">
-        <span class="fa fa-pencil"></span>&nbsp;<span> Edit</span>
-    </button>
+            <button *ngIf="account.id==initiative.initiatorId" type="button"
+                    [routerLink]="['/initiative', initiative.id, 'edit']"
+                    replaceUrl="true"
+                    class="btn btn-primary">
+                <span class="fa fa-pencil"></span>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+    <div class="col-sm-4" style="border-left: 1px solid rgba(0, 0, 0, 0.1)">
+
+        <div *ngIf="initiative">
+            <jhi-news [news]="initiative.newsFeed.searchResultListMedia"></jhi-news>
+        </div>
+    </div>
 </div>
+
