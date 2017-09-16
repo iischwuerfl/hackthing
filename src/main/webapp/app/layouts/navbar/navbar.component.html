@@ -5,13 +5,7 @@
         </a>
         <a class="navbar-brand logo float-left" routerLink="/" (click)="collapseNavbar()">
             <span class="logo-img"></span>
-            <span class="navbar-title">MeineInitiative</span> <span class="navbar-version">{{version}}</span>
-        </a>
-        <a class="navbar" routerLink="/initiative" (click)="collapseNavbar()">
-            <span class="navbar-title">Initiativen</span>
-        </a>
-        <a class="navbar" routerLink="/politicians" (click)="collapseNavbar()">
-            <span class="navbar-title">Politiker</span>
+            <span class="navbar-title">MeineInitiative</span>
         </a>
     </div>
     <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed" [ngSwitch]="isAuthenticated()">
@@ -24,16 +18,6 @@
                     </span>
                 </a>
             </li>
-
-            <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-                <a class="nav-link"  (click)="collapseNavbar()">
-                    <span>
-                        <i class="fa fa-user" aria-hidden="true"></i>
-                        <span>{{account?.firstName}} {{account?.lastName}}</span>
-                    </span>
-                </a>
-            </li>
-
             <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                 <a class="nav-link" routerLink="/" (click)="collapseNavbar()">
                     <span>
@@ -42,31 +26,14 @@
                     </span>
                 </a>
             </li>
-            <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
-            <li *ngSwitchCase="true" ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-                <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="entity-menu">
+
+            <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                <a class="nav-link" routerLink="/initiative" (click)="collapseNavbar()">
                     <span>
-                        <i class="fa fa-th-list" aria-hidden="true"></i>
-                        <span>
-                            Entities
-                        </span>
+                        <i class="fa fa-home" aria-hidden="true"></i>
+                        <span>Initiativen</span>
                     </span>
                 </a>
-                <ul class="dropdown-menu" ngbDropdownMenu>
-                    <li>
-                        <a class="dropdown-item" routerLink="initiative" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
-                            <span>Initiative</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="comment" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
-                            <span>Comment</span>
-                        </a>
-                    </li>
-                    <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
-                </ul>
             </li>
             <li *jhiHasAnyAuthority="'ROLE_ADMIN'" ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                 <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="admin-menu">
@@ -131,9 +98,7 @@
                 <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="account-menu">
                   <span *ngIf="!getImageUrl()">
                     <i class="fa fa-user" aria-hidden="true"></i>
-                    <span>
-                      Account
-                    </span>
+                       <span>{{account?.firstName}} {{account?.lastName}}</span>
                   </span>
                   <span *ngIf="getImageUrl()">
                       <img [src]="getImageUrl()" class="profile-image img-circle" alt="Avatar">
