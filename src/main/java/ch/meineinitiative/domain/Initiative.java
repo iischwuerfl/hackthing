@@ -1,5 +1,6 @@
 package ch.meineinitiative.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -35,6 +36,10 @@ public class Initiative implements Serializable {
 
     @Column(name = "creation_date")
     private ZonedDateTime creationDate;
+
+    @OneToMany(mappedBy = "initiative")
+    @JsonIgnore
+    private Set<Comment> comments = new HashSet<>();
 
     @ManyToOne
     private User initiator;
@@ -110,6 +115,31 @@ public class Initiative implements Serializable {
 
     public void setCreationDate(ZonedDateTime creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    public Initiative comments(Set<Comment> comments) {
+        this.comments = comments;
+        return this;
+    }
+
+    public Initiative addComments(Comment comment) {
+        this.comments.add(comment);
+        comment.setInitiative(this);
+        return this;
+    }
+
+    public Initiative removeComments(Comment comment) {
+        this.comments.remove(comment);
+        comment.setInitiative(null);
+        return this;
+    }
+
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
     }
 
     public User getInitiator() {

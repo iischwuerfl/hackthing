@@ -14,6 +14,7 @@ export class Initiative implements BaseEntity {
         public text?: string,
         public status?: Status,
         public creationDate?: any,
+        public comments?: BaseEntity[],
         public initiatorId?: number,
         public citizenSupporters?: User[],
         public politicianSupporters?: User[],

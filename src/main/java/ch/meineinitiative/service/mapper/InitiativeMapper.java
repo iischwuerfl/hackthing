@@ -13,6 +13,7 @@ public interface InitiativeMapper extends EntityMapper <InitiativeDTO, Initiativ
 
     @Mapping(source = "initiator.id", target = "initiatorId")
     InitiativeDTO toDto(Initiative initiative); 
+    @Mapping(target = "comments", ignore = true)
 
     @Mapping(source = "initiatorId", target = "initiator")
     Initiative toEntity(InitiativeDTO initiativeDTO); 

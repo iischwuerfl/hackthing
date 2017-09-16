@@ -5,6 +5,10 @@ entity Initiative {
     creationDate ZonedDateTime
 }
 
+relationship OneToMany {
+	Initiative{comments} to Comment
+}
+
 relationship ManyToOne {
 	Initiative{initiator} to User
 }
@@ -17,13 +21,13 @@ relationship ManyToMany {
 	Initiative{politicianSupporters} to User
 }
 
-entity Commentar {
+entity Comment {
 	text String,
     creationDate ZonedDateTime
 }
 
 relationship ManyToOne {
-	Commentar{creator} to User
+	Comment{creator} to User
 }
 
 enum Status {
@@ -31,7 +35,7 @@ enum Status {
 }
 
 // Set pagination options
-paginate Commentar with infinite-scroll
+paginate Comment with infinite-scroll
 paginate Initiative with infinite-scroll
 
 dto * with mapstruct
