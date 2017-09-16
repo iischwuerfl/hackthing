@@ -61,7 +61,6 @@ export class InitiativeCreateEditComponent implements OnInit {
     }
 
     save() {
-        console.log('saving');
         this.isSaving = true;
         if (this.initiative.id !== undefined) {
             this.subscribeToSaveResponse(
@@ -71,11 +70,17 @@ export class InitiativeCreateEditComponent implements OnInit {
                 this.initiativeService.create(this.initiative));
         }
     }
+
     onKey(event: any) {
         console.log('typing...');
         if (event.target.value.length > 4) {
-            this.initiativeService.findSimilar(event.target.value).subscribe((res: Initiative[]) =>
-                this.similarInitiatives = res);
+            this.initiativeService.findSimilar(event.target.value).subscribe((res: Initiative[]) => {
+                this.similarInitiatives = res;
+                console.log('similarInitiatives', this.similarInitiatives);
+            });
+        }
+        else {
+            this.similarInitiatives = null;
         }
     }
 
