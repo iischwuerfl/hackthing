@@ -12,17 +12,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Map;
-
-@FeignClient(name = "Simple-Gateway", url = "https://api.neofonie.de/rest/txt/analyzer", configuration = TaggingService.FormConfiguration.class
+@FeignClient(name = "Simple-Gateway", url = "https://api.neofonie.de/rest/txt/", configuration = TaggingService.FormConfiguration.class
 )
 public interface TaggingService {
 
-    @RequestMapping(method = RequestMethod.POST, path = "/", consumes = "application/x-www-form-urlencoded")
-    String tag(@RequestParam("title") String title, @RequestParam("services") String services, Map<String, ?> text, @RequestHeader("X-Api-Key") String accessToken);
+    @RequestMapping(method = RequestMethod.GET, path = "/analyzer")
+    String tag(@RequestParam("text") String text, @RequestParam("services") String services, @RequestHeader("X-Api-Key") String accessToken);
 
     @Configuration
-    public static class FormConfiguration {
+    public class FormConfiguration {
 
         @Bean
         @Primary

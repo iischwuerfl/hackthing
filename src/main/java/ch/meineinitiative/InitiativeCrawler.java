@@ -14,7 +14,7 @@ public class InitiativeCrawler {
     {
         List<InitiativeCral> initiatives = new LinkedList<>();
 
-        for (int i = 449; i < 450; i++)
+        for (int i = 200; i < 490; i++)
         {
             try
             {
@@ -22,8 +22,13 @@ public class InitiativeCrawler {
                 Elements initiativeTitle = doc.select("head title");
 
                 doc = Jsoup.connect("https://www.admin.ch/ch/d/pore/vi/vis" + i + "t.html").get();
-                Elements initiativeTextElements = doc.select("body div div.container-fluid").get(1).select("div.col-sm-12 p span");
+                Elements initiativeTextElements = doc.select("body div div.container-fluid div.col-sm-12 span,p");
                 String initativeText = "";
+
+                if(initiativeTextElements.size()==1)
+                {
+                    System.out.println();
+                }
 
                 for (Element element : initiativeTextElements)
                 {
@@ -31,7 +36,7 @@ public class InitiativeCrawler {
                 }
 
                 initiatives.add(new InitiativeCral(initiativeTitle.text(), initativeText));
-
+                System.out.println("SUCCESS FOR ID: " + i);
             }
             catch (Exception ex)
             {

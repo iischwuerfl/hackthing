@@ -15,12 +15,11 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
-import org.springframework.web.filter.CommonsRequestLoggingFilter;
 
 import javax.annotation.PostConstruct;
+import javax.transaction.Transactional;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Arrays;
@@ -64,28 +63,37 @@ public class MeineInitiativeApp {
                 "run with both the 'dev' and 'cloud' profiles at the same time.");
         }
 
+//        try {
+//            List<InitiativeCrawler.InitiativeCral> initiaveCrawlList = InitiativeCrawler.crawl();
+//            casdf(initiaveCrawlList);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+    }
+
+    @Transactional
+    private void casdf(List<InitiativeCrawler.InitiativeCral> initiaveCrawlList) {
         try {
-            List<InitiativeCrawler.InitiativeCral> initiaveCrawlList = InitiativeCrawler.crawl();
             for (InitiativeCrawler.InitiativeCral initiativeCral : initiaveCrawlList) {
                 // initiativeService.save()
                 System.out.println(initiativeCral.title);
                 InitiativeDTO initiativeDTO = new InitiativeDTO();
                 initiativeDTO.setTitle(initiativeCral.getTitle());
                 initiativeDTO.setText(initiativeCral.getText());
-                initiativeService.save(initiativeDTO);
+                try {
+                    createThing(initiativeDTO);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
-    @Bean
-    public CommonsRequestLoggingFilter requestLoggingFilter() {
-        CommonsRequestLoggingFilter loggingFilter = new CommonsRequestLoggingFilter();
-        loggingFilter.setIncludeClientInfo(true);
-        loggingFilter.setIncludeQueryString(true);
-        loggingFilter.setIncludePayload(true);
-        return loggingFilter;
+    private void createThing(InitiativeDTO initiativeDTO) {
+        initiativeService.save(initiativeDTO);
     }
 
     /**

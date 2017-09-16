@@ -15,7 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.net.URLEncoder;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -87,9 +86,9 @@ public class InitiativeServiceImpl implements InitiativeService {
         log.debug("Request to save Initiative : {}", initiativeDTO);
         Initiative initiative = initiativeMapper.toEntity(initiativeDTO);
         if (StringUtils.isNotEmpty(initiative.getText())) {
-            Map<String, Object> text = toBody(initiative.getText());
-            String tag = taggingService.tag(Optional.ofNullable(initiative.getTitle()).orElse(""),
-                "entities,categories,tags", text, "a5a54e61-ad82-ecb9-dc44-b73c4d4b7741");
+//            Map<String, Object> text = toBody(initiative.getText());
+            String tag = taggingService.tag(initiative.getText(),
+                "entities,categories,tags", "a5a54e61-ad82-ecb9-dc44-b73c4d4b7741");
 
             initiative.setTag(tag);
         }
@@ -100,7 +99,7 @@ public class InitiativeServiceImpl implements InitiativeService {
 
     private Map<String, Object> toBody(String text) {
         HashMap<String, Object> text1 = new HashMap<>();
-        text1.put("text", URLEncoder.encode(text));
+        text1.put("text", text);
         return text1;
     }
 
