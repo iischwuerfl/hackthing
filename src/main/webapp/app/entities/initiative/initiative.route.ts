@@ -8,6 +8,7 @@ import { InitiativeComponent } from './initiative.component';
 import { InitiativeDetailComponent } from './initiative-detail.component';
 import { InitiativeCreateEditComponent } from './initiative-create-edit.component';
 import { InitiativeDeletePopupComponent } from './initiative-delete-dialog.component';
+import {CommentPopupComponent} from '../comment/comment-dialog.component';
 
 export const initiativeRoute: Routes = [
     {
@@ -25,8 +26,18 @@ export const initiativeRoute: Routes = [
             authorities: ['ROLE_USER'],
             pageTitle: 'Initiatives'
         },
+        canActivate: [UserRouteAccessService],
+    },
+
+    {
+        path: 'initiative/:initiativeID/comment-new',
+        component: CommentPopupComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'Comments'
+        },
         canActivate: [UserRouteAccessService]
-    }
+    },
 ];
 
 export const initiativePopupRoute: Routes = [

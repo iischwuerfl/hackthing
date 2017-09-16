@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,6 +56,11 @@ public class CommentResource {
         if (commentDTO.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new comment cannot already have an ID")).body(null);
         }
+
+        LocalDateTime localDateAndTime = LocalDateTime.now();
+        ZoneId zoneId = ZoneId.of("Europe/Berlin");
+
+        commentDTO.setCreationDate(ZonedDateTime.of(localDateAndTime, zoneId));
         CommentDTO result = commentService.save(commentDTO);
         return ResponseEntity.created(new URI("/api/comments/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))

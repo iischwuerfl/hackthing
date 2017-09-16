@@ -31,7 +31,7 @@ export const commentRoute: Routes = [
 
 export const commentPopupRoute: Routes = [
     {
-        path: 'comment-new',
+        path: 'comment-new/:id',
         component: CommentPopupComponent,
         data: {
             authorities: ['ROLE_USER'],

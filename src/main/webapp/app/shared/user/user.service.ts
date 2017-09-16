@@ -24,7 +24,9 @@ export class UserService {
     }
 
     find(login: string): Observable<User> {
-        return this.http.get(`${this.resourceUrl}/${login}`).map((res: Response) => res.json());
+        return this.http.get(`${this.resourceUrl}/${login}`).map(
+           (res: Response) => res.json());
+
     }
 
     query(req?: any): Observable<ResponseWrapper> {

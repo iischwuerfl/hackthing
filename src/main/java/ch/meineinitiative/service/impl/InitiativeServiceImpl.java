@@ -140,7 +140,7 @@ public class InitiativeServiceImpl implements InitiativeService {
     @Transactional(readOnly = true)
     public InitiativeDTO findOne(Long id) {
         log.debug("Request to get Initiative : {}", id);
-        Initiative initiative = initiativeRepository.findOneWithEagerRelationships(id);
+        Initiative initiative = initiativeRepository.findOne(id);
         return initiativeMapper.toDto(initiative);
     }
 

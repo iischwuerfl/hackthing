@@ -37,7 +37,7 @@ public class Initiative implements Serializable {
     @Column(name = "creation_date")
     private ZonedDateTime creationDate;
 
-    @OneToMany(mappedBy = "initiative")
+    @OneToMany(mappedBy = "initiative", fetch = FetchType.EAGER)
     private Set<Comment> comments = new HashSet<>();
 
     @ManyToOne

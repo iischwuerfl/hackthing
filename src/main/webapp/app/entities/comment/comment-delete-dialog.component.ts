@@ -54,7 +54,7 @@ export class CommentDeletePopupComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
             this.commentPopupService
-                .open(CommentDeleteDialogComponent as Component, params['id']);
+                .open(CommentDeleteDialogComponent as Component, params['id'], false);
         });
     }
 

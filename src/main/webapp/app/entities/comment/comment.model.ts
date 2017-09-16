@@ -9,4 +9,5 @@ export class Comment implements BaseEntity {
         public creatorId?: number,
     ) {
     }
+
 }
