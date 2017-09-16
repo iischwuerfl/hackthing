@@ -33,7 +33,7 @@ export class PoliticianComponent implements OnInit {
 
     load(id) {
         const nameSplit = id.split('\+');
-        let lastName = nameSplit[1].charAt(0).toUpperCase() + nameSplit[1].slice(1);
+        const lastName = nameSplit[1].charAt(0).toUpperCase() + nameSplit[1].slice(1);
         this.politicianService.find(lastName).subscribe((newsFeed) => {
             this.newsFeed = newsFeed;
         });
