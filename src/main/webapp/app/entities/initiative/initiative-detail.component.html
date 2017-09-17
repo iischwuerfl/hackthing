@@ -24,15 +24,6 @@
                     <dd>
                         <span>{{initiative.creationDate | date:'medium'}}</span>
                     </dd>
-            <span *ngFor="let citizenSupporters of initiative.citizenSupporters; let last = last">
-                {{citizenSupporters.id}}{{last ? '' : ', '}}
-            </span>
-                    </dd>
-                    <dt><span>Politician Supporters</span></dt>
-                    <dd>
-            <span *ngFor="let politicianSupporters of initiative.politicianSupporters; let last = last">
-                {{politicianSupporters.id}}{{last ? '' : ', '}}
-            </span>
                     </dd>
                 </div>
             </dl>
@@ -79,7 +70,7 @@
                                 </div>
                                 <div class="pull-left meta">
                                     <div class="title h5">
-                                        <a href="#"><b>{{comment.creatorId}}</b></a>
+                                        <a href="#"><b>Samuel Künzli</b></a>
                                         made a post.
                                     </div>
                                     <h6 class="text-muted time">{{comment.creationDate | date:'fullDate'}}</h6>
