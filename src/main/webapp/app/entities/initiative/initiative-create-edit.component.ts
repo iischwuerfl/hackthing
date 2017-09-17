@@ -98,7 +98,7 @@ export class InitiativeCreateEditComponent implements OnInit {
 
     private onSaveSuccess(result: Initiative) {
         this.eventManager.broadcast({name: 'initiativeListModification', content: 'OK'});
-        this.router.navigate(['/initiative']);
+        this.router.navigate(['/initiative/' + result.id]);
         this.isSaving = false;
     }
 
